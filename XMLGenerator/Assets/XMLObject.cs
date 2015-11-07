@@ -22,11 +22,25 @@ namespace XMLGenerator.Assets
 
         public XElement GetXML()
         {
-            XElement xml = new XElement("Project",from dicipline in m_disciplineViewModels
-                                                  select new XElement("Dicipline", from export in dicipline.ExportViewModels
-                                                  select new XElement("Export", from folder in export.FileViewModels
-                                                  select new XElement("File"), from file in export.FolderViewModels
-                                                  select new XElement("Folders", from f in file.Folders select new XElement("Folder",f.IFC)))));
+
+            XElement xml = new XElement("Project",from discipline in m_disciplineViewModels
+                                                  select new XElement("Dicipline", from export in discipline.ExportViewModels
+                                                    select new XElement("Export", new XAttribute("Value", export.Value), from files in export.FileViewModels
+                                                        select new XElement("Files", from file in files.Files
+                                                            select new XElement("File", new XAttribute("From", file.From), 
+                                                                                        new XAttribute("To", file.To))), 
+                                                    from folders in export.FolderViewModels
+                                                        select new XElement("Folders", from folder in folders.Folders
+                                                            select new XElement("Folder", new XAttribute("From", folder.From), 
+                                                                                          new XAttribute("To", folder.To), 
+                                                                                          new XAttribute("IFC", folder.IFC)))
+                                                  ),
+                                                  new XElement("StartFile", discipline.StartFileViewModel.StartFile.Path
+                                                  )), 
+                                                  new XElement("IFC", new XAttribute("From", m_ifcViewModel.IFC.From), 
+                                                                      new XAttribute("To", m_ifcViewModel.IFC.To),
+                                                                      new XAttribute("Export", m_ifcViewModel.IFC.Export)
+                                                  ));
 
             return xml;
         }
