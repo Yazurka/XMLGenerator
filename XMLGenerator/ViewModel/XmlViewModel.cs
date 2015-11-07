@@ -21,9 +21,8 @@ namespace XMLGenerator.ViewModel
         private ICommand m_addDiciplineCommand;
 
        
-        public XmlViewModel(MainViewModel mainViewModel)
+        public XmlViewModel()
         {
-            m_mainViewModel = mainViewModel;
             DisciplineViewModels = new ObservableCollection<DisciplineViewModel> {new DisciplineViewModel() };
             BaseFolderViewModel = new BaseFolderViewModel();
             IFCViewModel = new IFCViewModel();

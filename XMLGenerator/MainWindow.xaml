@@ -21,10 +21,14 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Xml file output path" Margin="5" Text="{Binding SavePath, UpdateSourceTrigger=PropertyChanged}" />
+                      
                     </StackPanel>
+                   <Separator Grid.Row="1" BorderThickness="4" BorderBrush="SlateGray"/>
+                    <Button Grid.Row="2" Margin="5" Content="Open existing project" Command="{Binding FileExplorerCommand}"/>
                 </Grid>
             </Controls:Flyout>
         </Controls:FlyoutsControl>
