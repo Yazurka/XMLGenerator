@@ -12,18 +12,21 @@ namespace XMLGenerator.Assets
 {
     class XMLObject
     {
+        private XmlViewModel m_xmlViewModel;
         private IFCViewModel m_ifcViewModel;
         private ObservableCollection<DisciplineViewModel> m_disciplineViewModels; 
-        public XMLObject(IFCViewModel ifcViewModel, ObservableCollection<DisciplineViewModel> disciplineViewModels)
+        public XMLObject(XmlViewModel xmlViewModel)
         {
-            m_ifcViewModel = ifcViewModel;
-            m_disciplineViewModels = disciplineViewModels;
+            m_xmlViewModel = xmlViewModel;
+            m_ifcViewModel = xmlViewModel.IFCViewModel;
+            m_disciplineViewModels = xmlViewModel.DisciplineViewModels;
         }
 
-        public XElement GetXML()
+        public XDocument GetXML()
         {
 
-            XElement xml = new XElement("Project",from discipline in m_disciplineViewModels
+            XDocument xml = new XDocument(new XDeclaration("1.0", "ISO-8859-1", "yes"), 
+                                          new XElement("Project", from discipline in m_disciplineViewModels
                                                   select new XElement("Dicipline", from export in discipline.ExportViewModels
                                                     select new XElement("Export", new XAttribute("Value", export.Value), from files in export.FileViewModels
                                                         select new XElement("Files", from file in files.Files
@@ -40,7 +43,10 @@ namespace XMLGenerator.Assets
                                                   new XElement("IFC", new XAttribute("From", m_ifcViewModel.IFC.From), 
                                                                       new XAttribute("To", m_ifcViewModel.IFC.To),
                                                                       new XAttribute("Export", m_ifcViewModel.IFC.Export)
-                                                  ));
+                                                  ),
+                                                  new XElement("BaseFolder", new XAttribute("From", m_xmlViewModel.BaseFolderViewModel.FromBasePath),
+                                                                             new XAttribute("To", m_xmlViewModel.BaseFolderViewModel.ToBasePath)
+                                                  )));            
 
             return xml;
         }

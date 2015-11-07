@@ -48,14 +48,12 @@ namespace XMLGenerator.Assets
 
         private string ConvertFromTo(string From)
         {
-            try
+            if (!string.IsNullOrEmpty(From))
             {
-                return baseToFolder + From.Substring(baseFromFolder.Length-1);
+                return baseToFolder + From.Substring(baseFromFolder.Length - 1);
             }
-            catch (Exception)
-            {
-                return "";
-            }
+
+            return "StringNull WTF";
 
         }
     }
