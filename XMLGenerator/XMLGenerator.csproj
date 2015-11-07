@@ -92,6 +92,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Assets\CreateToField.cs" />
     <Compile Include="Assets\XMLObject.cs" />
     <Compile Include="Model\Discipline.cs" />
     <Compile Include="Model\Export.cs" />

@@ -76,6 +76,8 @@ namespace XMLGenerator.ViewModel
         {
             //TODO: DO SHIT
             var c = CurrentViewModel as XmlViewModel;
+            var CTF = new CreateToField();
+            CTF.ToFieldGenerator(c);
             var xmlo = new XMLObject(c.IFCViewModel,c.DisciplineViewModels);
             var res = xmlo.GetXML();
         }
