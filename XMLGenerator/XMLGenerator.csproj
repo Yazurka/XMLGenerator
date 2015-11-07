@@ -111,6 +111,7 @@
     <Compile Include="ViewModel\StartFileViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\XmlViewModel.cs" />
+    <Compile Include="ViewModel\YesNoDialogViewModel.cs" />
     <Compile Include="View\BaseFolderView.xaml.cs">
       <DependentUpon>BaseFolderView.xaml</DependentUpon>
     </Compile>
@@ -134,6 +135,9 @@
     </Compile>
     <Compile Include="View\XmlView.xaml.cs">
       <DependentUpon>XmlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\YesNoDialog.xaml.cs">
+      <DependentUpon>YesNoDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -180,6 +184,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\XmlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\YesNoDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

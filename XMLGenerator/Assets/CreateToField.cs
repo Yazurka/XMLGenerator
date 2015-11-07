@@ -22,21 +22,17 @@ namespace XMLGenerator.Assets
             {
                 foreach (var Export in Discipline.ExportViewModels)
                 {
-                    foreach (var FolderColl in Export.FolderViewModels)
+                    foreach (var Folder in Export.FolderViewModel.Folders)
                     {
-                        foreach (var Folder in FolderColl.Folders)
+                        if (string.IsNullOrEmpty(Folder.IFC))
                         {
-                            if (string.IsNullOrEmpty(Folder.IFC))
-                            {
-                                Folder.IFC = string.Empty;
-                            }
-                            if (string.IsNullOrEmpty(Folder.From))
-                            {
-                                Folder.From = string.Empty;
-                            }
-                            Folder.To = ConvertFromTo(Folder.From);
+                            Folder.IFC = string.Empty;
                         }
-
+                        if (string.IsNullOrEmpty(Folder.From))
+                        {
+                            Folder.From = string.Empty;
+                        }
+                        Folder.To = ConvertFromTo(Folder.From);
                     }
 
                     if (string.IsNullOrEmpty(Export.Value))

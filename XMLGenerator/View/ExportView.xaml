@@ -13,7 +13,7 @@
     <StackPanel >
        
         <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Name" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
-        <ItemsControl ItemsSource="{Binding FolderViewModels}"/>
+        <ContentPresenter Content="{Binding FolderViewModel}"/>
         
     </StackPanel>
     </Expander>

@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="XMLGenerator.View.YesNoDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:XMLGenerator.View"
+             mc:Ignorable="d" d:DesignWidth="1000" Height="200">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <Label Foreground="SlateGray" FontSize="40" Content="Part of path does not exsist, do you whant to create it?"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                <Button Margin="5" Width="150" Content="Yes" Command="{Binding YesCommand}"/>
+                <Button Margin="5" Width="150" Content="No" Command="{Binding NoCommand}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

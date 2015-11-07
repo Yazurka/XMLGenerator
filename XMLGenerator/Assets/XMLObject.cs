@@ -29,11 +29,10 @@ namespace XMLGenerator.Assets
                                           new XElement("Project", from discipline in m_disciplineViewModels
                                                   select new XElement("Discipline", from export in discipline.ExportViewModels
                                                     select new XElement("Export", new XAttribute("Value", export.Value),
-                                                    from folderVM in export.FolderViewModels
-                                                        select new XElement("Folders", from folder in folderVM.Folders
+                                                    from folder in export.FolderViewModel.Folders
                                                             select new XElement("Folder", new XAttribute("From", folder.From), 
                                                                                           new XAttribute("To", folder.To), 
-                                                                                          new XAttribute("IFC", folder.IFC)))
+                                                                                          new XAttribute("IFC", folder.IFC))
                                                   ),
                                                   new XElement("StartFile", new XAttribute("Value", discipline.StartFileViewModel.StartFile.Path)
                                                   )),

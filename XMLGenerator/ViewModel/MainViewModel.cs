@@ -9,7 +9,7 @@ using Microsoft.Practices.Prism.Commands;
 using Microsoft.Win32;
 using XMLGenerator.Assets;
 using System.IO;
-using System.Windows;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace XMLGenerator.ViewModel
 {
@@ -21,6 +21,7 @@ namespace XMLGenerator.ViewModel
         private ICommand m_fileExplorerCommand;
         private string m_savePath;
         private ViewModelBase m_viewModelBase;
+        private BaseMetroDialog CustomDialog;
         
         public ViewModelBase CurrentViewModel { get { return m_viewModelBase; } set { m_viewModelBase = value; OnPropertyChanged("CurrentViewModel"); } }
 
@@ -66,6 +67,8 @@ namespace XMLGenerator.ViewModel
             FileExplorerCommand = new DelegateCommand(OpenExplorerExecute);
             CurrentViewModel = InitialSetupXmlViewModel();
             SavePath = ConfigurationManager.AppSettings["SavePath"];
+            LoadFromXML("C:\\TestMappe\\input.xml");
+            // CustomDialog = new CustomDialog();
         }
 
         private void OpenExplorerExecute()
@@ -79,6 +82,7 @@ namespace XMLGenerator.ViewModel
 
         private void LoadFromXML(string path)
         {
+            
             var mapper = new XMLMapper();
             CurrentViewModel = mapper.MapXMLToXmlViewModel(path);
         }
@@ -104,17 +108,32 @@ namespace XMLGenerator.ViewModel
             return !(string.IsNullOrEmpty(xmlViewModel.BaseFolderViewModel.ToBasePath) ||
                    string.IsNullOrEmpty(xmlViewModel.BaseFolderViewModel.FromBasePath));
         }
-        private void GenerateXmlExecute()
+
+        private void YesAnswer()
+        {
+            CustomDialog.RequestCloseAsync();
+        }
+        private void NoAnswer()
+        {
+            CustomDialog.RequestCloseAsync();
+        }
+        private async void GenerateXmlExecute()
         {
             //TODO: DO SHIT
             var c = CurrentViewModel as XmlViewModel;
             var canMakeXML = CanGenerate(c);
+
+            //CustomDialog.Content = new YesNoDialogViewModel(YesAnswer, NoAnswer);
+            //CustomDialog.ShowModalDialogExternally();
+
+           // BaseMetroDialog b = new CustomDialog();
+          //  MessageDialogResult messageResult = await CustomDialog..ShowMessageAsync("Authentication Information", String.Format("Username: {0}\nPassword: {1}", result.Username, result.Password));
             if (!canMakeXML)
             {
                return;
             }
-            var CTF = new CreateToField();
-            c = CTF.ToFieldGenerator(c);
+            //var CTF = new CreateToField();
+            //c = CTF.ToFieldGenerator(c);
             var xmlo = new XMLObject(c);
             var res = xmlo.GetXML();
 
