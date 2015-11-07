@@ -10,6 +10,7 @@ using Microsoft.Win32;
 using XMLGenerator.Assets;
 using System.IO;
 using MahApps.Metro.Controls.Dialogs;
+using System.Windows;
 
 namespace XMLGenerator.ViewModel
 {
