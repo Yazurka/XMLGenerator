@@ -100,6 +100,7 @@
     <Compile Include="Model\Folder.cs" />
     <Compile Include="Model\IFC.cs" />
     <Compile Include="Model\StartFile.cs" />
+    <Compile Include="ViewModel\BaseFolderViewModel.cs" />
     <Compile Include="ViewModel\DisciplineViewModel.cs" />
     <Compile Include="ViewModel\ExportViewModel.cs" />
     <Compile Include="ViewModel\FileViewModel.cs" />
@@ -109,6 +110,9 @@
     <Compile Include="ViewModel\StartFileViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\XmlViewModel.cs" />
+    <Compile Include="View\BaseFolderView.xaml.cs">
+      <DependentUpon>BaseFolderView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DisciplineView.xaml.cs">
       <DependentUpon>DisciplineView.xaml</DependentUpon>
     </Compile>
@@ -145,6 +149,10 @@
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BaseFolderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DisciplineView.xaml">
       <SubType>Designer</SubType>

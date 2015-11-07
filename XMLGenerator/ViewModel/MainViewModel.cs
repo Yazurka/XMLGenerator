@@ -80,6 +80,7 @@ namespace XMLGenerator.ViewModel
             CTF.ToFieldGenerator(c);
             var xmlo = new XMLObject(c.IFCViewModel,c.DisciplineViewModels);
             var res = xmlo.GetXML();
+
         }
     }
 }

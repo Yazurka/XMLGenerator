@@ -17,6 +17,7 @@ namespace XMLGenerator.ViewModel
         private FolderViewModel m_folderViewModel;
         private StartFileViewModel m_startFileViewModel;
         private IFCViewModel m_ifcViewModel;
+        private BaseFolderViewModel m_baseFolderViewModel;
         private ICommand m_addDiciplineCommand;
 
        
@@ -24,6 +25,7 @@ namespace XMLGenerator.ViewModel
         {
             m_mainViewModel = mainViewModel;
             DisciplineViewModels = new ObservableCollection<DisciplineViewModel> {new DisciplineViewModel() };
+            BaseFolderViewModel = new BaseFolderViewModel();
             IFCViewModel = new IFCViewModel();
             AddDiciplineCommand = new DelegateCommand(AddDiciplineExecute);
             
@@ -33,6 +35,7 @@ namespace XMLGenerator.ViewModel
         {
             DisciplineViewModels.Add(new DisciplineViewModel());
         }
+        public BaseFolderViewModel BaseFolderViewModel { get { return m_baseFolderViewModel; } set { m_baseFolderViewModel = value; OnPropertyChanged("BaseFolderViewModel"); } }
         public IFCViewModel IFCViewModel { get { return m_ifcViewModel; } set { m_ifcViewModel = value; OnPropertyChanged("IFCViewModel"); } }
         public ObservableCollection<DisciplineViewModel>  DisciplineViewModels
         {
