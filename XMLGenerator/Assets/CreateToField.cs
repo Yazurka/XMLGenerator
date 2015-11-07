@@ -26,6 +26,14 @@ namespace XMLGenerator.Assets
                     {
                         foreach (var Folder in FolderColl.Folders)
                         {
+                            if (string.IsNullOrEmpty(Folder.IFC))
+                            {
+                                Folder.IFC = string.Empty;
+                            }
+                            if (string.IsNullOrEmpty(Folder.From))
+                            {
+                                Folder.From = string.Empty;
+                            }
                             Folder.To = ConvertFromTo(Folder.From);
                         }     
                               
@@ -34,11 +42,35 @@ namespace XMLGenerator.Assets
                     {
                         foreach (var File in FileColl.Files)
                         {
+                            if (string.IsNullOrEmpty(File.From))
+                            {
+                                File.From = string.Empty;
+                            }
+
+
                             File.To = ConvertFromTo(File.From);
                         }
                     }
+
+                    if (string.IsNullOrEmpty(Export.Value))
+                    {
+                        Export.Value = string.Empty;
+                    }
+                }
+                if (string.IsNullOrEmpty(Discipline.Value))
+                {
+                    Discipline.Value = string.Empty;
                 }
                 Discipline.StartFileViewModel.StartFile.Path = ConvertFromTo(Discipline.StartFileViewModel.StartFile.Path);
+            }
+
+            if (string.IsNullOrEmpty(_xmlViewModel.IFCViewModel.IFC.Export))
+            {
+                _xmlViewModel.IFCViewModel.IFC.Export = string.Empty;
+            }
+            if (string.IsNullOrEmpty(_xmlViewModel.IFCViewModel.IFC.From))
+            {
+                _xmlViewModel.IFCViewModel.IFC.From = string.Empty;
             }
 
             _xmlViewModel.IFCViewModel.IFC.To = ConvertFromTo(_xmlViewModel.IFCViewModel.IFC.From);
@@ -53,7 +85,7 @@ namespace XMLGenerator.Assets
                 return baseToFolder + From.Substring(baseFromFolder.Length - 1);
             }
 
-            return "StringNull WTF";
+            return string.Empty;
 
         }
     }
