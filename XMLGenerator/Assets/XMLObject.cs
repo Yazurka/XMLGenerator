@@ -12,21 +12,41 @@ namespace XMLGenerator.Assets
 {
     class XMLObject
     {
+        private XmlViewModel m_xmlViewModel;
         private IFCViewModel m_ifcViewModel;
         private ObservableCollection<DisciplineViewModel> m_disciplineViewModels; 
-        public XMLObject(IFCViewModel ifcViewModel, ObservableCollection<DisciplineViewModel> disciplineViewModels)
+        public XMLObject(XmlViewModel xmlViewModel)
         {
-            m_ifcViewModel = ifcViewModel;
-            m_disciplineViewModels = disciplineViewModels;
+            m_xmlViewModel = xmlViewModel;
+            m_ifcViewModel = xmlViewModel.IFCViewModel;
+            m_disciplineViewModels = xmlViewModel.DisciplineViewModels;
         }
 
-        public XElement GetXML()
+        public XDocument GetXML()
         {
-            XElement xml = new XElement("Project",from dicipline in m_disciplineViewModels
-                                                  select new XElement("Dicipline", from export in dicipline.ExportViewModels
-                                                  select new XElement("Export", from folder in export.FileViewModels
-                                                  select new XElement("File"), from file in export.FolderViewModels
-                                                  select new XElement("Folders", from f in file.Folders select new XElement("Folder",f.IFC)))));
+
+            XDocument xml = new XDocument(new XDeclaration("1.0", "ISO-8859-1", "yes"), 
+                                          new XElement("Project", from discipline in m_disciplineViewModels
+                                                  select new XElement("Dicipline", from export in discipline.ExportViewModels
+                                                    select new XElement("Export", new XAttribute("Value", export.Value), from files in export.FileViewModels
+                                                        select new XElement("Files", from file in files.Files
+                                                            select new XElement("File", new XAttribute("From", file.From), 
+                                                                                        new XAttribute("To", file.To))), 
+                                                    from folders in export.FolderViewModels
+                                                        select new XElement("Folders", from folder in folders.Folders
+                                                            select new XElement("Folder", new XAttribute("From", folder.From), 
+                                                                                          new XAttribute("To", folder.To), 
+                                                                                          new XAttribute("IFC", folder.IFC)))
+                                                  ),
+                                                  new XElement("StartFile", discipline.StartFileViewModel.StartFile.Path
+                                                  )), 
+                                                  new XElement("IFC", new XAttribute("From", m_ifcViewModel.IFC.From), 
+                                                                      new XAttribute("To", m_ifcViewModel.IFC.To),
+                                                                      new XAttribute("Export", m_ifcViewModel.IFC.Export)
+                                                  ),
+                                                  new XElement("BaseFolder", new XAttribute("From", m_xmlViewModel.BaseFolderViewModel.FromBasePath),
+                                                                             new XAttribute("To", m_xmlViewModel.BaseFolderViewModel.ToBasePath)
+                                                  )));            
 
             return xml;
         }

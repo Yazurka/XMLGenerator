@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Win32;
 using XMLGenerator.Assets;
+using System.IO;
 
 namespace XMLGenerator.ViewModel
 {
@@ -113,8 +114,10 @@ namespace XMLGenerator.ViewModel
             }
             var CTF = new CreateToField();
             c = CTF.ToFieldGenerator(c);
-            var xmlo = new XMLObject(c.IFCViewModel,c.DisciplineViewModels);
+            var xmlo = new XMLObject(c);
             var res = xmlo.GetXML();
+
+            res.Save(SavePath);
 
         }
     }
