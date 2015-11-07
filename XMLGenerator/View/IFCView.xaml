@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="XMLGenerator.View.IFCView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:XMLGenerator.View"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="35" d:DesignWidth="500">
+    <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="From" Text="{Binding IFC.From, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
+        <TextBox Grid.Column="1" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="To" Text="{Binding IFC.To, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
+        <TextBox Grid.Column="2" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Export" Text="{Binding IFC.Export, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
+    </Grid>
+</UserControl>

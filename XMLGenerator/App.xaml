@@ -1,0 +1,42 @@
+﻿<Application x:Class="XMLGenerator.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:XMLGenerator"
+             xmlns:ViewModel="clr-namespace:XMLGenerator.ViewModel"
+             xmlns:View="clr-namespace:XMLGenerator.View"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type ViewModel:XmlViewModel}">
+                <View:XmlView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:FolderViewModel}">
+                <View:FolderView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:FileViewModel}">
+                <View:FileView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:DisciplineViewModel}">
+                <View:DisciplineView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:StartFileViewModel}">
+                <View:StartFileView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:ExportViewModel}">
+                <View:ExportView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:IFCViewModel}">
+                <View:IFCView/>
+            </DataTemplate>
+        </ResourceDictionary>
+        
+    </Application.Resources>
+   
+</Application>
