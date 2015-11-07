@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,11 +10,14 @@ namespace XMLGenerator.Assets
 {
     public class CreateToField
     {
-        private string baseToFolder;
-        private string baseFromFolder;
+        private string baseToFolder = "";
+        private string baseFromFolder = "";
 
         public XmlViewModel ToFieldGenerator(XmlViewModel _xmlViewModel)
         {
+            baseToFolder = _xmlViewModel.BaseFolderViewModel.ToBasePath;
+            baseFromFolder = _xmlViewModel.BaseFolderViewModel.FromBasePath;
+
             foreach (var Discipline in _xmlViewModel.DisciplineViewModels)
             {
                 foreach (var Export in Discipline.ExportViewModels)
@@ -30,21 +34,29 @@ namespace XMLGenerator.Assets
                     {
                         foreach (var File in FileColl.Files)
                         {
-                            File.To = ConvertFromTo(File.To);
+                            File.To = ConvertFromTo(File.From);
                         }
                     }
                 }
                 Discipline.StartFileViewModel.StartFile.Path = ConvertFromTo(Discipline.StartFileViewModel.StartFile.Path);
             }
 
-            _xmlViewModel.IFCViewModel.IFC.To = ConvertFromTo(_xmlViewModel.IFCViewModel.IFC.To);
+            _xmlViewModel.IFCViewModel.IFC.To = ConvertFromTo(_xmlViewModel.IFCViewModel.IFC.From);
 
             return _xmlViewModel;
         }
 
         private string ConvertFromTo(string From)
-        {           
-            return baseToFolder + From.Substring(baseFromFolder.Length);
+        {
+            try
+            {
+                return baseToFolder + From.Substring(baseFromFolder.Length-1);
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+
         }
     }
 
