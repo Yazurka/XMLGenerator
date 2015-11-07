@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 
@@ -11,13 +6,10 @@ namespace XMLGenerator.ViewModel
 {
     public class XmlViewModel: ViewModelBase
     {
-        private MainViewModel m_mainViewModel;
-        private FileViewModel m_fileViewModel;
         private ObservableCollection<DisciplineViewModel> m_disciplineViewModels;
-        private FolderViewModel m_folderViewModel;
-        private StartFileViewModel m_startFileViewModel;
         private IFCViewModel m_ifcViewModel;
         private BaseFolderViewModel m_baseFolderViewModel;
+        private FileViewModel m_fileViewModel;
         private ICommand m_addDiciplineCommand;
 
        
@@ -26,6 +18,7 @@ namespace XMLGenerator.ViewModel
             DisciplineViewModels = new ObservableCollection<DisciplineViewModel> {new DisciplineViewModel() };
             BaseFolderViewModel = new BaseFolderViewModel();
             IFCViewModel = new IFCViewModel();
+            FileViewModel = new FileViewModel();
             AddDiciplineCommand = new DelegateCommand(AddDiciplineExecute);
             
         }
@@ -34,6 +27,7 @@ namespace XMLGenerator.ViewModel
         {
             DisciplineViewModels.Add(new DisciplineViewModel());
         }
+        public FileViewModel FileViewModel { get { return m_fileViewModel; } set { m_fileViewModel = value; OnPropertyChanged("FileViewModel"); } }
         public BaseFolderViewModel BaseFolderViewModel { get { return m_baseFolderViewModel; } set { m_baseFolderViewModel = value; OnPropertyChanged("BaseFolderViewModel"); } }
         public IFCViewModel IFCViewModel { get { return m_ifcViewModel; } set { m_ifcViewModel = value; OnPropertyChanged("IFCViewModel"); } }
         public ObservableCollection<DisciplineViewModel>  DisciplineViewModels

@@ -38,19 +38,19 @@ namespace XMLGenerator.Assets
                         }     
                               
                     }
-                    foreach (var FileColl in Export.FileViewModels)
-                    {
-                        foreach (var File in FileColl.Files)
-                        {
-                            if (string.IsNullOrEmpty(File.From))
-                            {
-                                File.From = string.Empty;
-                            }
+                    //foreach (var FileColl in Export.FileViewModels)
+                    //{
+                    //    foreach (var File in FileColl.Files)
+                    //    {
+                    //        if (string.IsNullOrEmpty(File.From))
+                    //        {
+                    //            File.From = string.Empty;
+                    //        }
 
 
-                            File.To = ConvertFromTo(File.From);
-                        }
-                    }
+                    //        File.To = ConvertFromTo(File.From);
+                    //    }
+                    //}
 
                     if (string.IsNullOrEmpty(Export.Value))
                     {
