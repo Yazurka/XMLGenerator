@@ -118,7 +118,7 @@ namespace XMLGenerator.ViewModel
             var xmlo = new XMLObject(c);
             var res = xmlo.GetXML();
 
-            if (Directory.Exists(Path.GetDirectoryName(SavePath)))
+            if (!Directory.Exists(Path.GetDirectoryName(SavePath)))
             {
                 var result = MessageBox.Show("Directory does not exist, do you want to create it?", "Save config file", MessageBoxButton.YesNo);
 
@@ -130,7 +130,7 @@ namespace XMLGenerator.ViewModel
                 else
                 {
                     return;
-                }              
+                }             
 
             }
 

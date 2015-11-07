@@ -35,21 +35,8 @@ namespace XMLGenerator.Assets
                                 Folder.From = string.Empty;
                             }
                             Folder.To = ConvertFromTo(Folder.From);
-                        }     
-                              
-                    }
-                    foreach (var FileColl in Export.FileViewModels)
-                    {
-                        foreach (var File in FileColl.Files)
-                        {
-                            if (string.IsNullOrEmpty(File.From))
-                            {
-                                File.From = string.Empty;
-                            }
-
-
-                            File.To = ConvertFromTo(File.From);
                         }
+
                     }
 
                     if (string.IsNullOrEmpty(Export.Value))
@@ -71,6 +58,17 @@ namespace XMLGenerator.Assets
             if (string.IsNullOrEmpty(_xmlViewModel.IFCViewModel.IFC.From))
             {
                 _xmlViewModel.IFCViewModel.IFC.From = string.Empty;
+            }
+
+            foreach (var File in _xmlViewModel.FileViewModel.Files)
+            {
+                if (string.IsNullOrEmpty(File.From))
+                {
+                    File.From = string.Empty;
+                }
+
+
+                File.To = ConvertFromTo(File.From);
             }
 
             _xmlViewModel.IFCViewModel.IFC.To = ConvertFromTo(_xmlViewModel.IFCViewModel.IFC.From);

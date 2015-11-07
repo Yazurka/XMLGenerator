@@ -12,7 +12,7 @@ namespace XMLGenerator.Assets
     {
         public XmlViewModel MapXMLToXmlViewModel(string path)
         {
-            //TODO: red file and mapp
+            //TODO:read file and mapp
             var XMLvm = new XmlViewModel();
            
             return XMLvm;

@@ -12,15 +12,9 @@
        <ItemsControl ItemsSource="{Binding Files}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                             <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                    <StackPanel>
                         <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="From" Text="{Binding From, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
-                        <TextBox Grid.Column="1" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="To" Text="{Binding To, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
-                       
-                    </Grid>
+                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

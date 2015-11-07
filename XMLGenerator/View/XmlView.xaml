@@ -11,6 +11,7 @@
     <StackPanel>
         <ContentPresenter Content="{Binding BaseFolderViewModel}"/>
         <ItemsControl ItemsSource="{Binding DisciplineViewModels}"/>
+        <ContentPresenter Content="{Binding FileViewModel}"/>
         <ContentPresenter Content="{Binding IFCViewModel}"/>
 
         <Button HorizontalAlignment="Right" Focusable="False" Width="120" Content="+ Add dicipline" Background="Transparent" BorderBrush="Transparent"  Command="{Binding AddDiciplineCommand}"/>
