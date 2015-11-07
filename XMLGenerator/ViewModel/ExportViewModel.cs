@@ -10,16 +10,16 @@ namespace XMLGenerator.ViewModel
 {
     public class ExportViewModel : ViewModelBase
     {
-        private ObservableCollection<FolderViewModel> m_folderViewModels;
+        private FolderViewModel m_folderViewModel;
         
         private string m_value;
         public ExportViewModel()
         {
-            FolderViewModels = new ObservableCollection<FolderViewModel> {new FolderViewModel()};
+            FolderViewModel = new FolderViewModel ();
            
         } 
 
-        public ObservableCollection<FolderViewModel> FolderViewModels { get { return m_folderViewModels; } set { m_folderViewModels = value; OnPropertyChanged("FolderViewModels"); } }
+        public FolderViewModel FolderViewModel { get { return m_folderViewModel; } set { m_folderViewModel = value; OnPropertyChanged("FolderViewModel"); } }
         
         public string Value { get { return m_value; } set { m_value = value; OnPropertyChanged("Value"); } }
     }
