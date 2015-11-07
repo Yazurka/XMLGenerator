@@ -72,10 +72,21 @@ namespace XMLGenerator.ViewModel
             
             return xmlVM;
         }
+
+        private bool CanGenerate(XmlViewModel xmlViewModel)
+        {
+            return !(string.IsNullOrEmpty(xmlViewModel.BaseFolderViewModel.ToBasePath) ||
+                   string.IsNullOrEmpty(xmlViewModel.BaseFolderViewModel.FromBasePath));
+        }
         private void GenerateXmlExecute()
         {
             //TODO: DO SHIT
             var c = CurrentViewModel as XmlViewModel;
+            var canMakeXML = CanGenerate(c);
+            if (!canMakeXML)
+            {
+               return;
+            }
             var CTF = new CreateToField();
             CTF.ToFieldGenerator(c);
             var xmlo = new XMLObject(c.IFCViewModel,c.DisciplineViewModels);
