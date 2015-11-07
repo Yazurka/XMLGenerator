@@ -78,6 +78,7 @@ namespace XMLGenerator.ViewModel
             var c = CurrentViewModel as XmlViewModel;
             var xmlo = new XMLObject(c.IFCViewModel,c.DisciplineViewModels);
             var res = xmlo.GetXML();
+
         }
     }
 }

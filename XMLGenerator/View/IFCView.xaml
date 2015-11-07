@@ -7,14 +7,18 @@
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="35" d:DesignWidth="500">
-    <Grid>
+    <StackPanel>
+
+        <Label Content="IFC" Foreground="DarkSlateGray" FontSize="15" />
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="From" Text="{Binding IFC.From, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
-        <TextBox Grid.Column="1" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="To" Text="{Binding IFC.To, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
-        <TextBox Grid.Column="2" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Export" Text="{Binding IFC.Export, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
-    </Grid>
+            </Grid.ColumnDefinitions>
+            <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="From" Text="{Binding IFC.From, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
+            <TextBox Grid.Column="1" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="To" Text="{Binding IFC.To, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
+            <TextBox Grid.Column="2" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Export" Text="{Binding IFC.Export, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
+        </Grid>
+    </StackPanel>
 </UserControl>

@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
  
     <StackPanel>
-        
+        <ContentPresenter Content="{Binding BaseFolderViewModel}"/>
         <ItemsControl ItemsSource="{Binding DisciplineViewModels}"/>
         <ContentPresenter Content="{Binding IFCViewModel}"/>
 

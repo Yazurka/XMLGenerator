@@ -35,6 +35,9 @@
             <DataTemplate DataType="{x:Type ViewModel:IFCViewModel}">
                 <View:IFCView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:BaseFolderViewModel}">
+                <View:BaseFolderView/>
+            </DataTemplate>
         </ResourceDictionary>
         
     </Application.Resources>
