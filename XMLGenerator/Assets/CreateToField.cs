@@ -82,7 +82,7 @@ namespace XMLGenerator.Assets
         {
             if (!string.IsNullOrEmpty(From))
             {
-                return baseToFolder + From.Substring(baseFromFolder.Length - 1);
+                return baseToFolder + From.Substring(baseFromFolder.Length);
             }
 
             return string.Empty;

@@ -9,6 +9,7 @@ using Microsoft.Practices.Prism.Commands;
 using Microsoft.Win32;
 using XMLGenerator.Assets;
 using System.IO;
+using System.Windows;
 
 namespace XMLGenerator.ViewModel
 {
@@ -116,6 +117,22 @@ namespace XMLGenerator.ViewModel
             c = CTF.ToFieldGenerator(c);
             var xmlo = new XMLObject(c);
             var res = xmlo.GetXML();
+
+            if (Directory.Exists(Path.GetDirectoryName(SavePath)))
+            {
+                var result = MessageBox.Show("Directory does not exist, do you want to create it?", "Save config file", MessageBoxButton.YesNo);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    var SaveDir = Path.GetDirectoryName(SavePath);
+                    Directory.CreateDirectory(SaveDir);
+                }
+                else
+                {
+                    return;
+                }              
+
+            }
 
             res.Save(SavePath);
 
