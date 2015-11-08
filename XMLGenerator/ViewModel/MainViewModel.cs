@@ -23,23 +23,24 @@ namespace XMLGenerator.ViewModel
         private string m_basePath;
         private int m_selectedTabIndex;
         private ObservableCollection<ViewModelBase> m_viewModelBase;
-        private ViewModelBase m_popup;
 
         public ObservableCollection<ViewModelBase> CurrentViewModel { get { return m_viewModelBase; } set { m_viewModelBase = value; OnPropertyChanged("CurrentViewModel"); } }
-        public ViewModelBase Popup { get { return m_popup; } set { m_popup = value; OnPropertyChanged("Popup"); } }
         public int SelectedTabIndex 
         { 
             get 
             { 
                 return m_selectedTabIndex; 
             } 
-            set { 
-                
+            set {
+
                 m_selectedTabIndex = value;
-                SavePath = m_basePath +(CurrentViewModel[m_selectedTabIndex] as XmlViewModel).ProjectName+".xml";
                 OnPropertyChanged("SelectedTabIndex");
-            }
-        
+
+                if (m_selectedTabIndex != -1)
+                {                    
+                    SavePath = m_basePath + (CurrentViewModel[m_selectedTabIndex] as XmlViewModel).ProjectName + ".xml";                    
+                }
+            }        
         }
 
 
@@ -302,30 +303,27 @@ namespace XMLGenerator.ViewModel
                    string.IsNullOrEmpty(xmlViewModel.BaseFolderViewModel.FromBasePath));
         }
 
-        private void YesAnswer()
+        private void CreateNewDirectory()
         {
+            var SaveDir = Path.GetDirectoryName(SavePath);
+            Directory.CreateDirectory(SaveDir);
+        }
+
+        private async void SaveXMLFile()
+        {
+
             var c = CurrentViewModel[SelectedTabIndex] as XmlViewModel;
             var CTF = new CreateToField();
             c = CTF.ToFieldGenerator(c);
             var xmlo = new XMLObject(c);
             var res = xmlo.GetXML();
-
-
-            var SaveDir = Path.GetDirectoryName(SavePath);
-            Directory.CreateDirectory(SaveDir);
-            res.Save(SaveDir + "\\" + c.ProjectName + ".xml");
-            MessageBox.Show("File saved to " + SaveDir + "\\" + c.ProjectName + ".xml");
-            Popup = null;
-        }
-        private void NoAnswer()
-        {
-            Popup = null;
-
+            res.Save(SavePath);
+            var window = Application.Current.MainWindow as MetroWindow;
+            await window.ShowMessageAsync("File saved", "Your file has been saved to: " + SavePath);
         }
 
-        private void GenerateXmlExecute()
+        private async void GenerateXmlExecute()
         {
-            //TODO: DO SHIT
             var c = CurrentViewModel[SelectedTabIndex] as XmlViewModel;
             var canMakeXML = CanGenerate(c);
 
@@ -337,13 +335,25 @@ namespace XMLGenerator.ViewModel
 
             if (!Directory.Exists(Path.GetDirectoryName(SavePath)))
             {
-                Popup = new YesNoDialogViewModel(YesAnswer, NoAnswer);
+                var window = Application.Current.MainWindow as MetroWindow;
+                var x = await window.ShowMessageAsync("Directory not found!", "The directory you specified does not exist, do you want to create it?", MessageDialogStyle.AffirmativeAndNegative);
+
+                switch (x)
+                {
+                    case MessageDialogResult.Negative:
+                        return;
+                    case MessageDialogResult.Affirmative:
+                        CreateNewDirectory();
+                        SaveXMLFile();
+                        break;
+                }
+
 
                 return;
 
             }
 
-            YesAnswer();
+            CreateNewDirectory();
 
         }
     }
