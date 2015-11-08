@@ -329,9 +329,11 @@ namespace XMLGenerator.ViewModel
 
             if (!canMakeXML)
             {
+                var window = Application.Current.MainWindow as MetroWindow;
+                await window.ShowMessageAsync("Invalid data", "Base folder's fields To and From can not be empty, please enter a value");
                 return;
             }
-
+            
 
             if (!Directory.Exists(Path.GetDirectoryName(SavePath)))
             {
