@@ -13,6 +13,7 @@ using MahApps.Metro.Controls.Dialogs;
 using System.Windows;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using MahApps.Metro.Controls;
 
 namespace XMLGenerator.ViewModel
 {
@@ -51,7 +52,7 @@ namespace XMLGenerator.ViewModel
                 OnPropertyChanged("SavePath");
             }
         }
-        
+
 
         public bool IsSettingsOpen
         {
@@ -74,30 +75,131 @@ namespace XMLGenerator.ViewModel
             FileExplorerCommand = new DelegateCommand(OpenExplorerExecute);
             CurrentViewModel = InitialSetupXmlViewModel();
             SavePath = ConfigurationManager.AppSettings["SavePath"];
-           
+
             // CustomDialog = new CustomDialog();
         }
 
         private void OpenExplorerExecute()
         {
-            OpenFileDialog fileDialog  = new OpenFileDialog();
-            
+            OpenFileDialog fileDialog = new OpenFileDialog();
+
             fileDialog.ShowDialog();
             LoadFromXML(fileDialog.FileName);
 
         }
 
+        private bool IsSelectedProjectEmpty(XmlViewModel p)
+        {
+            var EmptyBool = true;
+
+            if (p.IFCViewModel.IFC.Export != string.Empty)
+            {
+                EmptyBool = false;
+            }
+
+            if (p.IFCViewModel.IFC.From != string.Empty)
+            {
+                EmptyBool = false;
+            }
+            if (p.IFCViewModel.IFC.To != string.Empty)
+            {
+                EmptyBool = false;
+            }
+
+            if (p.BaseFolderViewModel.FromBasePath != string.Empty)
+            {
+                EmptyBool = false;
+            }
+
+            if (p.BaseFolderViewModel.ToBasePath != string.Empty)
+            {
+                EmptyBool = false;
+            }
+
+            foreach (var file in p.FileViewModel.Files)
+            {
+                if (file.To != string.Empty)
+                {
+                    EmptyBool = false;
+                }
+
+                if (file.From != string.Empty)
+                {
+                    EmptyBool = false;
+                }
+            }
+
+            foreach (var Discipline in p.DisciplineViewModels)
+            {
+                if (Discipline.Value != string.Empty)
+                {
+                    EmptyBool = false;
+                }
+
+                if (Discipline.StartFileViewModel.StartFile.Path != string.Empty)
+                {
+                    EmptyBool = false;
+                }
+
+                foreach (var Export in Discipline.ExportViewModels)
+                {
+                    if (Export.Value != string.Empty)
+                    {
+                        EmptyBool = false;
+                    }
+
+                    foreach (var Folder in Export.FolderViewModel.Folders)
+                    {
+                        if (Folder.From != string.Empty)
+                        {
+                            EmptyBool = false;
+                        }
+
+                        if (Folder.IFC != string.Empty)
+                        {
+                            EmptyBool = false;
+                        }
+
+                        if (Folder.To != string.Empty)
+                        {
+                            EmptyBool = false;
+                        }
+                    }
+                }
+            }
+
+            return EmptyBool;
+        }
+
+
         private void LoadFromXML(string path)
         {
-            
-            var mapper = new XMLMapper();
-            var p = mapper.MapXMLToXmlViewModel(path);
-            p.ProjectName = "Project";
-            CurrentViewModel[SelectedTabIndex] = p;
-            
+            var TabIndex = SelectedTabIndex;
+
+            if (IsSelectedProjectEmpty(CurrentViewModel[SelectedTabIndex] as XmlViewModel))
+            {
+                // Project is empty
+
+                var mapper = new XMLMapper();
+                var p = mapper.MapXMLToXmlViewModel(path);
+                p.ProjectName = "Project";
+                CurrentViewModel[SelectedTabIndex] = p;
+            }
+            else
+            {
+                // Project has data
+                var window = Application.Current.MainWindow as MetroWindow;
+
+                var x = window.ShowMessageAsync("Obs!", "Du har data i gjeldene prosjekt!");
+            }
+
             SavePath = path;
             IsSettingsOpen = false;
+            SelectedTabIndex = TabIndex;
+
         }
+
+
         public ICommand FileExplorerCommand
         {
             get { return m_fileExplorerCommand; }
@@ -140,12 +242,12 @@ namespace XMLGenerator.ViewModel
             Directory.CreateDirectory(SaveDir);
             res.Save(SavePath);
             MessageBox.Show("File saved to " + SavePath);
-            Popup =null;
+            Popup = null;
         }
         private void NoAnswer()
         {
             Popup = null;
-            
+
         }
 
         private void GenerateXmlExecute()
@@ -164,7 +266,7 @@ namespace XMLGenerator.ViewModel
             {
                 Popup = new YesNoDialogViewModel(YesAnswer, NoAnswer);
 
-                    return;
+                return;
 
             }
 
