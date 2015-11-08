@@ -91,7 +91,7 @@ namespace XMLGenerator.ViewModel
         {
             
             var mapper = new XMLMapper();
-            //CurrentViewModel = mapper.MapXMLToXmlViewModel(path);
+            CurrentViewModel[SelectedTabIndex] = mapper.MapXMLToXmlViewModel(path);
 
             SavePath = path;
             IsSettingsOpen = false;
