@@ -175,13 +175,13 @@ namespace XMLGenerator.ViewModel
         private void LoadFromXML(string path)
         {
             var TabIndex = SelectedTabIndex;
+            var mapper = new XMLMapper();
+            var p = mapper.MapXMLToXmlViewModel(path);
+            var res = MessageDialogResult.FirstAuxiliary;
 
             if (IsSelectedProjectEmpty(CurrentViewModel[SelectedTabIndex] as XmlViewModel))
             {
                 // Project is empty
-
-                var mapper = new XMLMapper();
-                var p = mapper.MapXMLToXmlViewModel(path);
                 p.ProjectName = "Project";
                 CurrentViewModel[SelectedTabIndex] = p;
             }
@@ -189,8 +189,30 @@ namespace XMLGenerator.ViewModel
             {
                 // Project has data
                 var window = Application.Current.MainWindow as MetroWindow;
+                MetroDialogSettings Settings = new MetroDialogSettings();
+                Settings.AffirmativeButtonText = "Overskriv";
+                Settings.NegativeButtonText = "Ny fane";
+                Settings.FirstAuxiliaryButtonText = "Avbryt";
+                var x = window.ShowMessageAsync("Oisann!", "Du har data i gjeldene fane, vil du overskrive eller åpne prosjektet i ny fane?", MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, Settings);
+                res = x.Result;
+            }
 
-                var x = window.ShowMessageAsync("Obs!", "Du har data i gjeldene prosjekt!");
+
+            switch (res)
+            {
+                case MessageDialogResult.Negative:
+                    // Ny fane
+                    p.ProjectName = "Imported Project";
+                    CurrentViewModel.Add(p);
+                    TabIndex = CurrentViewModel.Count - 1;
+                    break;
+                case MessageDialogResult.Affirmative:
+                    // Overskriv
+                    p.ProjectName = "Project";
+                    CurrentViewModel[SelectedTabIndex] = p;
+                    break;
+                case MessageDialogResult.FirstAuxiliary:
+                    return;
             }
 
             SavePath = path;
