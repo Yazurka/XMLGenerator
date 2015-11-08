@@ -11,6 +11,7 @@ namespace XMLGenerator.ViewModel
         private BaseFolderViewModel m_baseFolderViewModel;
         private FileViewModel m_fileViewModel;
         private ICommand m_addDiciplineCommand;
+        private ICommand m_renameProjectCommand;
         private string m_projectName;
        
         public XmlViewModel()
@@ -20,9 +21,14 @@ namespace XMLGenerator.ViewModel
             IFCViewModel = new IFCViewModel();
             FileViewModel = new FileViewModel();
             AddDiciplineCommand = new DelegateCommand(AddDiciplineExecute);
+            RenameProjectCommand = new DelegateCommand(RenameProject);
             
         }
 
+        private void RenameProject()
+        {
+
+        }
         private void AddDiciplineExecute()
         {
             DisciplineViewModels.Add(new DisciplineViewModel());
@@ -43,6 +49,15 @@ namespace XMLGenerator.ViewModel
             {
                 m_addDiciplineCommand = value;
                 OnPropertyChanged("AddDiciplineCommand");
+            }
+        }
+        public ICommand RenameProjectCommand
+        {
+            get { return m_renameProjectCommand; }
+            set
+            {
+                m_renameProjectCommand = value;
+                OnPropertyChanged("RenameProjectCommand");
             }
         }
 
