@@ -10,10 +10,9 @@
              d:DesignHeight="300" d:DesignWidth="300">
  
     <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label Content="Project name " Foreground="SlateGray" FontSize="15"/>
-            <TextBox Controls:TextBoxHelper.Watermark="Project name" Text="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="100" />
-        </StackPanel>
+        <Border>
+            <Button ToolTip="Rename project" Height="20" Focusable="False" BorderThickness="0" Background="Transparent" HorizontalAlignment="Right" Style="{StaticResource btnCustom}" Command="{Binding RenameProjectCommand}"/>
+        </Border>
         
         <ContentPresenter Content="{Binding BaseFolderViewModel}"/>
         <ItemsControl ItemsSource="{Binding DisciplineViewModels}"/>
