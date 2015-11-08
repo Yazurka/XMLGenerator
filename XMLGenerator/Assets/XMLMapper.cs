@@ -38,7 +38,7 @@ namespace XMLGenerator.Assets
 
                     var fVM = new FolderViewModel();
                     var foldersCol = new ObservableCollection<Folder>();
-                    var folders = exp.Element("Folders").Elements("Folder");
+                    var folders = exp.Elements("Folder");
                     foreach (var folder in folders)
                     {
                        
