@@ -319,7 +319,7 @@ namespace XMLGenerator.ViewModel
             var res = xmlo.GetXML();
             res.Save(SavePath);
             var window = Application.Current.MainWindow as MetroWindow;
-            await window.ShowMessageAsync("File saved", "Your file has been saved to: " + SavePath);
+            await window.ShowMessageAsync("File saved", "Your file has been saved to: \n" + SavePath);
         }
 
         private async void GenerateXmlExecute()
@@ -353,7 +353,7 @@ namespace XMLGenerator.ViewModel
 
             }
 
-            CreateNewDirectory();
+            SaveXMLFile();
 
         }
     }
