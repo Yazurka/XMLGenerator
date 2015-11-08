@@ -142,16 +142,17 @@ namespace XMLGenerator.ViewModel
             var c = CurrentViewModel as XmlViewModel;
             var canMakeXML = CanGenerate(c);
 
-          if (!canMakeXML)
+            if (!canMakeXML)
             {
                return;
             }
-           
+
+
             if (!Directory.Exists(Path.GetDirectoryName(SavePath)))
             {
                 Popup = new YesNoDialogViewModel(YesAnswer, NoAnswer);
 
-                     return;    
+                    return;
 
             }
 

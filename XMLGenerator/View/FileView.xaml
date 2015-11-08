@@ -12,9 +12,14 @@
        <ItemsControl ItemsSource="{Binding Files}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="From" Text="{Binding From, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
-                     </StackPanel>
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="From" Text="{Binding From, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
+                        <Button Grid.Column="1" Command="{Binding FolderDialogCommand}" Content="Browse"/> 
+                    </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
