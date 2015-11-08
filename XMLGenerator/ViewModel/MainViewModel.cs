@@ -20,13 +20,27 @@ namespace XMLGenerator.ViewModel
         private ICommand m_fileExplorerCommand;
         private ICommand m_deleteProjectCommand;
         private string m_savePath;
+        private string m_basePath;
         private int m_selectedTabIndex;
         private ObservableCollection<ViewModelBase> m_viewModelBase;
         private ViewModelBase m_popup;
 
         public ObservableCollection<ViewModelBase> CurrentViewModel { get { return m_viewModelBase; } set { m_viewModelBase = value; OnPropertyChanged("CurrentViewModel"); } }
         public ViewModelBase Popup { get { return m_popup; } set { m_popup = value; OnPropertyChanged("Popup"); } }
-        public int SelectedTabIndex { get { return m_selectedTabIndex; } set { m_selectedTabIndex = value; OnPropertyChanged("SelectedTabIndex"); } }
+        public int SelectedTabIndex 
+        { 
+            get 
+            { 
+                return m_selectedTabIndex; 
+            } 
+            set { 
+                
+                m_selectedTabIndex = value;
+                SavePath = m_basePath +(CurrentViewModel[m_selectedTabIndex] as XmlViewModel).ProjectName+".xml";
+                OnPropertyChanged("SelectedTabIndex");
+            }
+        
+        }
 
 
         public ICommand OpenSettings
@@ -87,10 +101,11 @@ namespace XMLGenerator.ViewModel
             m_generateXmlCommand = new DelegateCommand(GenerateXmlExecute);
             FileExplorerCommand = new DelegateCommand(OpenExplorerExecute);
             CurrentViewModel = InitialSetupXmlViewModel();
-            SavePath = ConfigurationManager.AppSettings["SavePath"];
+           
+            m_basePath = ConfigurationManager.AppSettings["SavePath"];
             NewProjectCommand = new DelegateCommand(AddNewProject);
             DeleteProjectCommand = new DelegateCommand(DeleteProjectExecute);
-            
+            SelectedTabIndex = 0;
         }
         private async void DeleteProjectExecute ()
         {
