@@ -128,38 +128,38 @@ namespace XMLGenerator.ViewModel
         {
             var EmptyBool = true;
 
-            if (p.IFCViewModel.IFC.Export != string.Empty)
+            if (p.IFCViewModel.IFC.Export != string.Empty && p.IFCViewModel.IFC.Export != null)
             {
                 EmptyBool = false;
             }
 
-            if (p.IFCViewModel.IFC.From != string.Empty)
+            if (p.IFCViewModel.IFC.From != string.Empty && p.IFCViewModel.IFC.From != null)
             {
                 EmptyBool = false;
             }
-            if (p.IFCViewModel.IFC.To != string.Empty)
-            {
-                EmptyBool = false;
-            }
-
-            if (p.BaseFolderViewModel.FromBasePath != string.Empty)
+            if (p.IFCViewModel.IFC.To != string.Empty && p.IFCViewModel.IFC.To != null)
             {
                 EmptyBool = false;
             }
 
-            if (p.BaseFolderViewModel.ToBasePath != string.Empty)
+            if (p.BaseFolderViewModel.FromBasePath != string.Empty && p.BaseFolderViewModel.FromBasePath != null)
+            {
+                EmptyBool = false;
+            }
+
+            if (p.BaseFolderViewModel.ToBasePath != string.Empty && p.BaseFolderViewModel.ToBasePath != null)
             {
                 EmptyBool = false;
             }
 
             foreach (var file in p.FileViewModel.Files)
             {
-                if (file.To != string.Empty)
+                if (file.To != string.Empty && file.To != null)
                 {
                     EmptyBool = false;
                 }
 
-                if (file.From != string.Empty)
+                if (file.From != string.Empty && file.From != null)
                 {
                     EmptyBool = false;
                 }
@@ -167,36 +167,36 @@ namespace XMLGenerator.ViewModel
 
             foreach (var Discipline in p.DisciplineViewModels)
             {
-                if (Discipline.Value != string.Empty)
+                if (Discipline.Value != string.Empty && Discipline.Value != null)
                 {
                     EmptyBool = false;
                 }
 
-                if (Discipline.StartFileViewModel.StartFile.Path != string.Empty)
+                if (Discipline.StartFileViewModel.StartFile.Path != string.Empty && Discipline.StartFileViewModel.StartFile.Path != null)
                 {
                     EmptyBool = false;
                 }
 
                 foreach (var Export in Discipline.ExportViewModels)
                 {
-                    if (Export.Value != string.Empty)
+                    if (Export.Value != string.Empty && Export.Value != null)
                     {
                         EmptyBool = false;
                     }
 
                     foreach (var Folder in Export.FolderViewModel.Folders)
                     {
-                        if (Folder.From != string.Empty)
+                        if (Folder.From != string.Empty && Folder.From != null)
                         {
                             EmptyBool = false;
                         }
 
-                        if (Folder.IFC != string.Empty)
+                        if (Folder.IFC != string.Empty && Folder.IFC != null)
                         {
                             EmptyBool = false;
                         }
 
-                        if (Folder.To != string.Empty)
+                        if (Folder.To != string.Empty && Folder.To != null)
                         {
                             EmptyBool = false;
                         }
@@ -237,7 +237,7 @@ namespace XMLGenerator.ViewModel
                         TabIndex = CurrentViewModel.Count - 1;
                         break;
                     case MessageDialogResult.Affirmative:
-                        // Overskriv
+                        // Overskrivs
                         p.ProjectName = "Project";
                         CurrentViewModel[SelectedTabIndex] = p;
                         break;
@@ -293,8 +293,8 @@ namespace XMLGenerator.ViewModel
 
             var SaveDir = Path.GetDirectoryName(SavePath);
             Directory.CreateDirectory(SaveDir);
-            res.Save(SavePath);
-            MessageBox.Show("File saved to " + SavePath);
+            res.Save(SaveDir + "\\" + c.ProjectName + ".xml");
+            MessageBox.Show("File saved to " + SaveDir + "\\" + c.ProjectName + ".xml");
             Popup = null;
         }
         private void NoAnswer()
