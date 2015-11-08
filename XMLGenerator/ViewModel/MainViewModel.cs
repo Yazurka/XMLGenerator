@@ -10,6 +10,7 @@ using Microsoft.Win32;
 using XMLGenerator.Assets;
 using System.IO;
 using MahApps.Metro.Controls.Dialogs;
+using System.Windows;
 
 namespace XMLGenerator.ViewModel
 {
@@ -22,7 +23,7 @@ namespace XMLGenerator.ViewModel
         private string m_savePath;
         private ViewModelBase m_viewModelBase;
         private BaseMetroDialog CustomDialog;
-
+        
         public ViewModelBase CurrentViewModel { get { return m_viewModelBase; } set { m_viewModelBase = value; OnPropertyChanged("CurrentViewModel"); } }
 
 
@@ -120,6 +121,7 @@ namespace XMLGenerator.ViewModel
         {
             CustomDialog.RequestCloseAsync();
         }
+
         private async void GenerateXmlExecute()
         {
             //TODO: DO SHIT
@@ -135,11 +137,27 @@ namespace XMLGenerator.ViewModel
             {
                return;
             }
-            //var CTF = new CreateToField();
-            //c = CTF.ToFieldGenerator(c);
+            var CTF = new CreateToField();
+            c = CTF.ToFieldGenerator(c);
             var xmlo = new XMLObject(c);
             var res = xmlo.GetXML();
-                
+
+            if (!Directory.Exists(Path.GetDirectoryName(SavePath)))
+            {
+                var result = MessageBox.Show("Directory does not exist, do you want to create it?", "Save config file", MessageBoxButton.YesNo);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    var SaveDir = Path.GetDirectoryName(SavePath);
+                    Directory.CreateDirectory(SaveDir);
+                }
+                else
+                {
+                    return;
+                }             
+
+            }
+
             res.Save(SavePath);
 
         }
