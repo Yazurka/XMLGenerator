@@ -5,10 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:View="clr-namespace:XMLGenerator.View"
              xmlns:ViewModel="clr-namespace:XMLGenerator.ViewModel"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
  
     <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Project name " Foreground="SlateGray" FontSize="15"/>
+            <TextBox Controls:TextBoxHelper.Watermark="Project name" Text="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="100" />
+        </StackPanel>
+        
         <ContentPresenter Content="{Binding BaseFolderViewModel}"/>
         <ItemsControl ItemsSource="{Binding DisciplineViewModels}"/>
         <ContentPresenter Content="{Binding FileViewModel}"/>
