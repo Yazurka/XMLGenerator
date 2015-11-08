@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Win32;
@@ -11,7 +6,6 @@ using XMLGenerator.Assets;
 using System.IO;
 using MahApps.Metro.Controls.Dialogs;
 using System.Windows;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using MahApps.Metro.Controls;
 
@@ -29,7 +23,6 @@ namespace XMLGenerator.ViewModel
         private int m_selectedTabIndex;
         private ObservableCollection<ViewModelBase> m_viewModelBase;
         private ViewModelBase m_popup;
-        private BaseMetroDialog CustomDialog;
 
         public ObservableCollection<ViewModelBase> CurrentViewModel { get { return m_viewModelBase; } set { m_viewModelBase = value; OnPropertyChanged("CurrentViewModel"); } }
         public ViewModelBase Popup { get { return m_popup; } set { m_popup = value; OnPropertyChanged("Popup"); } }
@@ -214,7 +207,6 @@ namespace XMLGenerator.ViewModel
             return EmptyBool;
         }
 
-
         private async void LoadFromXML(string path)
         {
             var TabIndex = SelectedTabIndex;
@@ -236,7 +228,6 @@ namespace XMLGenerator.ViewModel
                 Settings.NegativeButtonText = "New page";
                 Settings.FirstAuxiliaryButtonText = "Abort";
                 var x = await window.ShowMessageAsync("Oops!", "This project already contains data, what do you want to do?", MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, Settings);
-             
                 switch (x)
                 {
                     case MessageDialogResult.Negative:
