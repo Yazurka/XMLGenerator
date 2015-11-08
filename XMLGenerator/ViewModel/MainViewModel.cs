@@ -21,6 +21,7 @@ namespace XMLGenerator.ViewModel
     {
         private bool m_isSettingsOpen;
         private ICommand m_openSettings;
+        private ICommand m_newProjectCommand;
         private ICommand m_generateXmlCommand;
         private ICommand m_fileExplorerCommand;
         private string m_savePath;
@@ -41,6 +42,15 @@ namespace XMLGenerator.ViewModel
             {
                 m_openSettings = value;
                 OnPropertyChanged("OpenSettings");
+            }
+        }
+        public ICommand NewProjectCommand
+        {
+            get { return m_newProjectCommand; }
+            set
+            {
+                m_newProjectCommand = value;
+                OnPropertyChanged("NewProjectCommand");
             }
         }
         public string SavePath
@@ -75,10 +85,16 @@ namespace XMLGenerator.ViewModel
             FileExplorerCommand = new DelegateCommand(OpenExplorerExecute);
             CurrentViewModel = InitialSetupXmlViewModel();
             SavePath = ConfigurationManager.AppSettings["SavePath"];
-
-            // CustomDialog = new CustomDialog();
+            NewProjectCommand = new DelegateCommand(AddNewProject);
+            
         }
 
+        private void AddNewProject()
+        {
+            var newProject = new XmlViewModel{ProjectName = "New Project"};
+
+            CurrentViewModel.Add(newProject);
+        }
         private void OpenExplorerExecute()
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -176,7 +192,7 @@ namespace XMLGenerator.ViewModel
         {
             var TabIndex = SelectedTabIndex;
 
-            if (IsSelectedProjectEmpty(CurrentViewModel[SelectedTabIndex] as XmlViewModel))
+            if (!IsSelectedProjectEmpty(CurrentViewModel[SelectedTabIndex] as XmlViewModel))
             {
                 // Project is empty
 
@@ -214,12 +230,12 @@ namespace XMLGenerator.ViewModel
         {
             var xmlVM = new XmlViewModel();
             xmlVM.ProjectName = "Project1";
-            var xmlVM2 = new XmlViewModel();
-            xmlVM2.ProjectName = "Project2";
+           // var xmlVM2 = new XmlViewModel();
+           // xmlVM2.ProjectName = "Project2";
 
             ObservableCollection<ViewModelBase> xmlVms = new ObservableCollection<ViewModelBase>();
             xmlVms.Add(xmlVM);
-            xmlVms.Add(xmlVM2);
+           // xmlVms.Add(xmlVM2);
             return xmlVms;
         }
 
