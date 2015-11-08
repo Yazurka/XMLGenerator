@@ -24,6 +24,7 @@ namespace XMLGenerator.ViewModel
         private ICommand m_newProjectCommand;
         private ICommand m_generateXmlCommand;
         private ICommand m_fileExplorerCommand;
+        private ICommand m_deleteProjectCommand;
         private string m_savePath;
         private int m_selectedTabIndex;
         private ObservableCollection<ViewModelBase> m_viewModelBase;
@@ -51,6 +52,15 @@ namespace XMLGenerator.ViewModel
             {
                 m_newProjectCommand = value;
                 OnPropertyChanged("NewProjectCommand");
+            }
+        }
+        public ICommand DeleteProjectCommand
+        {
+            get { return m_deleteProjectCommand; }
+            set
+            {
+                m_deleteProjectCommand = value;
+                OnPropertyChanged("DeleteProjectCommand");
             }
         }
         public string SavePath
@@ -86,9 +96,15 @@ namespace XMLGenerator.ViewModel
             CurrentViewModel = InitialSetupXmlViewModel();
             SavePath = ConfigurationManager.AppSettings["SavePath"];
             NewProjectCommand = new DelegateCommand(AddNewProject);
+            DeleteProjectCommand = new DelegateCommand(DeleteProjectExecute);
             
         }
+        private void DeleteProjectExecute ()
+        {
+            
 
+            CurrentViewModel.RemoveAt(SelectedTabIndex);
+        }
         private void AddNewProject()
         {
             var newProject = new XmlViewModel{ProjectName = "New Project"};
@@ -205,8 +221,10 @@ namespace XMLGenerator.ViewModel
             {
                 // Project has data
                 var window = Application.Current.MainWindow as MetroWindow;
-
+                
                 var x = window.ShowMessageAsync("Obs!", "Du har data i gjeldene prosjekt!");
+               
+                
             }
 
             SavePath = path;
