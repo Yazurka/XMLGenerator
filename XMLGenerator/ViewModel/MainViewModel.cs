@@ -67,7 +67,7 @@ namespace XMLGenerator.ViewModel
             FileExplorerCommand = new DelegateCommand(OpenExplorerExecute);
             CurrentViewModel = InitialSetupXmlViewModel();
             SavePath = ConfigurationManager.AppSettings["SavePath"];
-            LoadFromXML("C:\\TestMappe\\input.xml");
+           
             // CustomDialog = new CustomDialog();
         }
 
@@ -85,6 +85,9 @@ namespace XMLGenerator.ViewModel
             
             var mapper = new XMLMapper();
             CurrentViewModel = mapper.MapXMLToXmlViewModel(path);
+
+            SavePath = path;
+            IsSettingsOpen = false;
         }
         public ICommand FileExplorerCommand
         {
