@@ -114,6 +114,8 @@ namespace XMLGenerator.ViewModel
             var newProject = new XmlViewModel{ProjectName = "New Project"};
 
             CurrentViewModel.Add(newProject);
+
+            SelectedTabIndex = CurrentViewModel.Count - 1;
         }
         private void OpenExplorerExecute()
         {
@@ -213,10 +215,15 @@ namespace XMLGenerator.ViewModel
             var mapper = new XMLMapper();
             var p = mapper.MapXMLToXmlViewModel(path);
 
+            if (CurrentViewModel.Count == 0)
+            {
+                CurrentViewModel.Add(new XmlViewModel());
+                SelectedTabIndex = 0;
+                TabIndex = 0;
+            }
+
             if (IsSelectedProjectEmpty(CurrentViewModel[SelectedTabIndex] as XmlViewModel))
             {
-                // Project is empty
-                p.ProjectName = "Project";
                 CurrentViewModel[SelectedTabIndex] = p;
             }
             else
@@ -232,13 +239,11 @@ namespace XMLGenerator.ViewModel
                 {
                     case MessageDialogResult.Negative:
                         // Ny fane
-                        p.ProjectName = "Imported Project";
                         CurrentViewModel.Add(p);
                         TabIndex = CurrentViewModel.Count - 1;
                         break;
                     case MessageDialogResult.Affirmative:
                         // Overskrivs
-                        p.ProjectName = "Project";
                         CurrentViewModel[SelectedTabIndex] = p;
                         break;
                     case MessageDialogResult.FirstAuxiliary:

@@ -1,6 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
+using System.Windows;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace XMLGenerator.ViewModel
 {
@@ -25,9 +28,17 @@ namespace XMLGenerator.ViewModel
             
         }
 
-        private void RenameProject()
+        private async void RenameProject()
         {
+            var window = Application.Current.MainWindow as MetroWindow;
+            var newName = await window.ShowInputAsync("Edit project name", "Project name");
 
+            if (string.IsNullOrEmpty(newName))
+            {
+                return;
+            }
+
+            ProjectName = newName;
         }
         private void AddDiciplineExecute()
         {

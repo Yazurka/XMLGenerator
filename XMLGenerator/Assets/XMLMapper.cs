@@ -21,6 +21,7 @@ namespace XMLGenerator.Assets
         {
             var XMLvm = new XmlViewModel();
             XElement xdoc = XElement.Load(path);
+            XMLvm.ProjectName = xdoc.Attribute("Name").Value;
             var Dicsiplines = xdoc.Elements("Discipline");
             var disciplinecol = new ObservableCollection<DisciplineViewModel>();
             foreach (var dis in Dicsiplines)
