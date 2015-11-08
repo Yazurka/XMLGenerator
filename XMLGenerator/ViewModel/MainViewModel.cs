@@ -118,6 +118,7 @@ namespace XMLGenerator.ViewModel
         {
             CustomDialog.RequestCloseAsync();
         }
+
         private async void GenerateXmlExecute()
         {
             //TODO: DO SHIT
@@ -133,8 +134,8 @@ namespace XMLGenerator.ViewModel
             {
                return;
             }
-            //var CTF = new CreateToField();
-            //c = CTF.ToFieldGenerator(c);
+            var CTF = new CreateToField();
+            c = CTF.ToFieldGenerator(c);
             var xmlo = new XMLObject(c);
             var res = xmlo.GetXML();
 

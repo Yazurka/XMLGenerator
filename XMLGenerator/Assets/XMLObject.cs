@@ -27,7 +27,7 @@ namespace XMLGenerator.Assets
 
             XDocument xml = new XDocument(new XDeclaration("1.0", "ISO-8859-1", "yes"), 
                                           new XElement("Project", from discipline in m_disciplineViewModels
-                                                  select new XElement("Discipline", from export in discipline.ExportViewModels
+                                                  select new XElement("Discipline", new XAttribute("Value",discipline.Value), from export in discipline.ExportViewModels
                                                     select new XElement("Export", new XAttribute("Value", export.Value),
                                                     from folder in export.FolderViewModel.Folders
                                                             select new XElement("Folder", new XAttribute("From", folder.From), 
