@@ -11,7 +11,7 @@
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Content="new project" Command="{Binding NewProjectCommand}" />
-            <Button Content="delete project" Command="{Binding DeleteProjectCommand}" />
+            <Button Content="unload project" Command="{Binding DeleteProjectCommand}" />
             <Button Content="export" Command="{Binding GenerateXmlCommand}" />
             <Button Content="settings" Command="{Binding OpenSettings}" /> 
         </Controls:WindowCommands>
