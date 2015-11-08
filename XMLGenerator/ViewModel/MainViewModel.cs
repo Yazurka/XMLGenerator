@@ -99,11 +99,22 @@ namespace XMLGenerator.ViewModel
             DeleteProjectCommand = new DelegateCommand(DeleteProjectExecute);
             
         }
-        private void DeleteProjectExecute ()
+        private async void DeleteProjectExecute ()
         {
-            
+            var window = Application.Current.MainWindow as MetroWindow;
+            MetroDialogSettings Settings = new MetroDialogSettings();
+            Settings.AffirmativeButtonText = "Yes";
+            Settings.NegativeButtonText = "No";
+            var x = await window.ShowMessageAsync("Delete", "Are you sure you want to delete the project?", MessageDialogStyle.AffirmativeAndNegative, Settings);
 
-            CurrentViewModel.RemoveAt(SelectedTabIndex);
+            switch (x)
+            {
+                case MessageDialogResult.Negative:
+                    return;
+                case MessageDialogResult.Affirmative:
+                    CurrentViewModel.RemoveAt(SelectedTabIndex);
+                    break;
+            }
         }
         private void AddNewProject()
         {
@@ -204,16 +215,15 @@ namespace XMLGenerator.ViewModel
         }
 
 
-        private void LoadFromXML(string path)
+        private async void LoadFromXML(string path)
         {
             var TabIndex = SelectedTabIndex;
+            var mapper = new XMLMapper();
+            var p = mapper.MapXMLToXmlViewModel(path);
 
-            if (!IsSelectedProjectEmpty(CurrentViewModel[SelectedTabIndex] as XmlViewModel))
+            if (IsSelectedProjectEmpty(CurrentViewModel[SelectedTabIndex] as XmlViewModel))
             {
                 // Project is empty
-
-                var mapper = new XMLMapper();
-                var p = mapper.MapXMLToXmlViewModel(path);
                 p.ProjectName = "Project";
                 CurrentViewModel[SelectedTabIndex] = p;
             }
@@ -221,10 +231,28 @@ namespace XMLGenerator.ViewModel
             {
                 // Project has data
                 var window = Application.Current.MainWindow as MetroWindow;
-                
-                var x = window.ShowMessageAsync("Obs!", "Du har data i gjeldene prosjekt!");
-               
-                
+                MetroDialogSettings Settings = new MetroDialogSettings();
+                Settings.AffirmativeButtonText = "Overwrite";
+                Settings.NegativeButtonText = "New page";
+                Settings.FirstAuxiliaryButtonText = "Abort";
+                var x = await window.ShowMessageAsync("Oops!", "This project already contains data, what do you want to do?", MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, Settings);
+             
+                switch (x)
+                {
+                    case MessageDialogResult.Negative:
+                        // Ny fane
+                        p.ProjectName = "Imported Project";
+                        CurrentViewModel.Add(p);
+                        TabIndex = CurrentViewModel.Count - 1;
+                        break;
+                    case MessageDialogResult.Affirmative:
+                        // Overskriv
+                        p.ProjectName = "Project";
+                        CurrentViewModel[SelectedTabIndex] = p;
+                        break;
+                    case MessageDialogResult.FirstAuxiliary:
+                        return;
+                }
             }
 
             SavePath = path;
