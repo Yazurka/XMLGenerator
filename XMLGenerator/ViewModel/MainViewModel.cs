@@ -22,9 +22,11 @@ namespace XMLGenerator.ViewModel
         private ICommand m_fileExplorerCommand;
         private string m_savePath;
         private ViewModelBase m_viewModelBase;
+        private ViewModelBase m_popup;
         private BaseMetroDialog CustomDialog;
         
         public ViewModelBase CurrentViewModel { get { return m_viewModelBase; } set { m_viewModelBase = value; OnPropertyChanged("CurrentViewModel"); } }
+        public ViewModelBase Popup { get { return m_popup; } set { m_popup = value; OnPropertyChanged("Popup"); } }
 
 
         public ICommand OpenSettings
@@ -115,11 +117,23 @@ namespace XMLGenerator.ViewModel
 
         private void YesAnswer()
         {
-            CustomDialog.RequestCloseAsync();
+            var c = CurrentViewModel as XmlViewModel;
+            var CTF = new CreateToField();
+            c = CTF.ToFieldGenerator(c);
+            var xmlo = new XMLObject(c);
+            var res = xmlo.GetXML();
+
+
+            var SaveDir = Path.GetDirectoryName(SavePath);
+            Directory.CreateDirectory(SaveDir);
+            res.Save(SavePath);
+            MessageBox.Show("File saved to " + SavePath);
+            Popup =null;
         }
         private void NoAnswer()
         {
-            CustomDialog.RequestCloseAsync();
+            Popup = null;
+            
         }
 
         private async void GenerateXmlExecute()
@@ -128,37 +142,20 @@ namespace XMLGenerator.ViewModel
             var c = CurrentViewModel as XmlViewModel;
             var canMakeXML = CanGenerate(c);
 
-            //CustomDialog.Content = new YesNoDialogViewModel(YesAnswer, NoAnswer);
-            //CustomDialog.ShowModalDialogExternally();
-
-           // BaseMetroDialog b = new CustomDialog();
-          //  MessageDialogResult messageResult = await CustomDialog..ShowMessageAsync("Authentication Information", String.Format("Username: {0}\nPassword: {1}", result.Username, result.Password));
-            if (!canMakeXML)
+          if (!canMakeXML)
             {
                return;
             }
-            var CTF = new CreateToField();
-            c = CTF.ToFieldGenerator(c);
-            var xmlo = new XMLObject(c);
-            var res = xmlo.GetXML();
-
+           
             if (!Directory.Exists(Path.GetDirectoryName(SavePath)))
             {
-                var result = MessageBox.Show("Directory does not exist, do you want to create it?", "Save config file", MessageBoxButton.YesNo);
+                Popup = new YesNoDialogViewModel(YesAnswer, NoAnswer);
 
-                if (result == MessageBoxResult.Yes)
-                {
-                    var SaveDir = Path.GetDirectoryName(SavePath);
-                    Directory.CreateDirectory(SaveDir);
-                }
-                else
-                {
-                    return;
-                }             
+                     return;    
 
             }
 
-            res.Save(SavePath);
+            YesAnswer();
 
         }
     }
