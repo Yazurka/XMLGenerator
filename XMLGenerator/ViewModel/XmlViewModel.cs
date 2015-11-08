@@ -11,7 +11,7 @@ namespace XMLGenerator.ViewModel
         private BaseFolderViewModel m_baseFolderViewModel;
         private FileViewModel m_fileViewModel;
         private ICommand m_addDiciplineCommand;
-
+        private string m_projectName;
        
         public XmlViewModel()
         {
@@ -27,6 +27,7 @@ namespace XMLGenerator.ViewModel
         {
             DisciplineViewModels.Add(new DisciplineViewModel());
         }
+        public string ProjectName { get { return m_projectName; } set { m_projectName = value; OnPropertyChanged("ProjectName"); } }
         public FileViewModel FileViewModel { get { return m_fileViewModel; } set { m_fileViewModel = value; OnPropertyChanged("FileViewModel"); } }
         public BaseFolderViewModel BaseFolderViewModel { get { return m_baseFolderViewModel; } set { m_baseFolderViewModel = value; OnPropertyChanged("BaseFolderViewModel"); } }
         public IFCViewModel IFCViewModel { get { return m_ifcViewModel; } set { m_ifcViewModel = value; OnPropertyChanged("IFCViewModel"); } }

@@ -6,7 +6,7 @@
                       xmlns:ViewModel="clr-namespace:XMLGenerator.ViewModel"
                       Height="600" 
                       Width="800">
-   
+    
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Content="export" Command="{Binding GenerateXmlCommand}" />
@@ -43,13 +43,14 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
-            <ContentPresenter Content="{Binding Popup}"/>
-
-            <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}"/>
-
-
-
+            <TabControl ItemsSource="{Binding CurrentViewModel}" SelectedIndex="{Binding SelectedTabIndex}">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ProjectName}"/>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+            </TabControl>
+            <ContentPresenter Content="{Binding Popup}"/>        
         </Grid>
     </ScrollViewer>
 </Controls:MetroWindow>

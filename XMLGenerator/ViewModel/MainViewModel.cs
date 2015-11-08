@@ -11,6 +11,8 @@ using XMLGenerator.Assets;
 using System.IO;
 using MahApps.Metro.Controls.Dialogs;
 using System.Windows;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace XMLGenerator.ViewModel
 {
@@ -21,12 +23,14 @@ namespace XMLGenerator.ViewModel
         private ICommand m_generateXmlCommand;
         private ICommand m_fileExplorerCommand;
         private string m_savePath;
-        private ViewModelBase m_viewModelBase;
+        private int m_selectedTabIndex;
+        private ObservableCollection<ViewModelBase> m_viewModelBase;
         private ViewModelBase m_popup;
         private BaseMetroDialog CustomDialog;
-        
-        public ViewModelBase CurrentViewModel { get { return m_viewModelBase; } set { m_viewModelBase = value; OnPropertyChanged("CurrentViewModel"); } }
+
+        public ObservableCollection<ViewModelBase> CurrentViewModel { get { return m_viewModelBase; } set { m_viewModelBase = value; OnPropertyChanged("CurrentViewModel"); } }
         public ViewModelBase Popup { get { return m_popup; } set { m_popup = value; OnPropertyChanged("Popup"); } }
+        public int SelectedTabIndex { get { return m_selectedTabIndex; } set { m_selectedTabIndex = value; OnPropertyChanged("SelectedTabIndex"); } }
 
 
         public ICommand OpenSettings
@@ -87,7 +91,7 @@ namespace XMLGenerator.ViewModel
         {
             
             var mapper = new XMLMapper();
-            CurrentViewModel = mapper.MapXMLToXmlViewModel(path);
+            //CurrentViewModel = mapper.MapXMLToXmlViewModel(path);
 
             SavePath = path;
             IsSettingsOpen = false;
@@ -102,11 +106,17 @@ namespace XMLGenerator.ViewModel
             get { return m_generateXmlCommand; }
             set { m_generateXmlCommand = value; OnPropertyChanged("GenerateXmlCommand"); }
         }
-        private XmlViewModel InitialSetupXmlViewModel()
+        private ObservableCollection<ViewModelBase> InitialSetupXmlViewModel()
         {
             var xmlVM = new XmlViewModel();
-            
-            return xmlVM;
+            xmlVM.ProjectName = "Project1";
+            var xmlVM2 = new XmlViewModel();
+            xmlVM2.ProjectName = "Project2";
+
+            ObservableCollection<ViewModelBase> xmlVms = new ObservableCollection<ViewModelBase>();
+            xmlVms.Add(xmlVM);
+            xmlVms.Add(xmlVM2);
+            return xmlVms;
         }
 
         private bool CanGenerate(XmlViewModel xmlViewModel)
@@ -117,7 +127,7 @@ namespace XMLGenerator.ViewModel
 
         private void YesAnswer()
         {
-            var c = CurrentViewModel as XmlViewModel;
+            var c = CurrentViewModel[SelectedTabIndex] as XmlViewModel;
             var CTF = new CreateToField();
             c = CTF.ToFieldGenerator(c);
             var xmlo = new XMLObject(c);
@@ -136,15 +146,15 @@ namespace XMLGenerator.ViewModel
             
         }
 
-        private async void GenerateXmlExecute()
+        private void GenerateXmlExecute()
         {
             //TODO: DO SHIT
-            var c = CurrentViewModel as XmlViewModel;
+            var c = CurrentViewModel[SelectedTabIndex] as XmlViewModel;
             var canMakeXML = CanGenerate(c);
 
             if (!canMakeXML)
             {
-               return;
+                return;
             }
 
 
