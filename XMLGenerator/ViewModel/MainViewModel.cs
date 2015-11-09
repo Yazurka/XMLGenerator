@@ -38,7 +38,7 @@ namespace XMLGenerator.ViewModel
 
                 if (m_selectedTabIndex != -1)
                 {                    
-                    SavePath = m_basePath + (CurrentViewModel[m_selectedTabIndex] as XmlViewModel).ProjectName + ".xml";                    
+                    SaveFolderPath = m_basePath;                    
                 }
             }        
         }
@@ -71,7 +71,7 @@ namespace XMLGenerator.ViewModel
                 OnPropertyChanged("DeleteProjectCommand");
             }
         }
-        public string SavePath
+        public string SaveFolderPath
         {
             get { return m_savePath; }
             set
@@ -267,7 +267,7 @@ namespace XMLGenerator.ViewModel
                 }
             }
 
-            SavePath = path;
+            SaveFolderPath = Path.GetDirectoryName(path);
             IsSettingsOpen = false;
             SelectedTabIndex = TabIndex;
 
@@ -305,7 +305,7 @@ namespace XMLGenerator.ViewModel
 
         private void CreateNewDirectory()
         {
-            var SaveDir = Path.GetDirectoryName(SavePath);
+            var SaveDir = Path.GetDirectoryName(SaveFolderPath);
             Directory.CreateDirectory(SaveDir);
         }
 
@@ -317,10 +317,10 @@ namespace XMLGenerator.ViewModel
             c = CTF.ToFieldGenerator(c);
             var xmlo = new XMLObject(c);
             var res = xmlo.GetXML();
-            SavePath = Path.GetDirectoryName(SavePath) + "\\" + c.ProjectName + ".xml";
-            res.Save(SavePath);
+            SaveFolderPath = Path.GetDirectoryName(SaveFolderPath) + "\\" + c.ProjectName + ".xml";
+            res.Save(SaveFolderPath);
             var window = Application.Current.MainWindow as MetroWindow;
-            await window.ShowMessageAsync("File saved", "Your file has been saved to: \n" + SavePath);
+            await window.ShowMessageAsync("File saved", "Your file has been saved to: \n" + SaveFolderPath);
         }
 
         private async void GenerateXmlExecute()
@@ -336,7 +336,7 @@ namespace XMLGenerator.ViewModel
             }
             
 
-            if (!Directory.Exists(Path.GetDirectoryName(SavePath)))
+            if (!Directory.Exists(Path.GetDirectoryName(SaveFolderPath)))
             {
                 var window = Application.Current.MainWindow as MetroWindow;
                 var x = await window.ShowMessageAsync("Directory not found!", "The directory you specified does not exist, do you want to create it?", MessageDialogStyle.AffirmativeAndNegative);

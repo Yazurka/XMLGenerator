@@ -27,7 +27,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <Label Content="Save file to path"/>
-                        <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Xml file output path" Margin="5" Text="{Binding SavePath, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Xml file output path" Margin="5" Text="{Binding SaveFolderPath, UpdateSourceTrigger=PropertyChanged}" />
 
                     </StackPanel>
                     <Separator Grid.Row="1" BorderThickness="4" BorderBrush="SlateGray"/>
