@@ -331,10 +331,10 @@ namespace XMLGenerator.ViewModel
             c = CTF.ToFieldGenerator(c);
             var xmlo = new XMLObject(c);
             var res = xmlo.GetXML();
-            SaveFolderPath = SaveFolderPath + c.ProjectName + ".xml";
-            res.Save(SaveFolderPath);
+            var SavePath = SaveFolderPath + "\\" + c.ProjectName + ".xml";
+            res.Save(SavePath);
             var window = Application.Current.MainWindow as MetroWindow;
-            await window.ShowMessageAsync("File saved", "Your file has been saved to: \n" + SaveFolderPath);
+            await window.ShowMessageAsync("File saved", "Your file has been saved to: \n" + SavePath);
         }
 
         private async void GenerateXmlExecute()
