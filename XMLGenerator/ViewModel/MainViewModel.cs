@@ -19,7 +19,7 @@ namespace XMLGenerator.ViewModel
         private ICommand m_generateXmlCommand;
         private ICommand m_fileExplorerCommand;
         private ICommand m_deleteProjectCommand;
-
+        private ICommand m_openFolderCommand;
         private string m_savePath;
         private string m_basePath;
         private int m_selectedTabIndex;
@@ -46,6 +46,17 @@ namespace XMLGenerator.ViewModel
         }
 
         public ICommand SaveFolderCommand { get; set; }
+
+        
+        public ICommand OpenFolderCommand
+        {
+            get { return m_openFolderCommand; }
+            set
+            {
+                m_openFolderCommand = value;
+                OnPropertyChanged("OpenFolderCommand");
+            }
+        }
 
 
         public ICommand OpenSettings
@@ -112,8 +123,18 @@ namespace XMLGenerator.ViewModel
             m_basePath = ConfigurationManager.AppSettings["SavePath"];
             NewProjectCommand = new DelegateCommand(AddNewProject);
             DeleteProjectCommand = new DelegateCommand(DeleteProjectExecute);
+            OpenFolderCommand = new DelegateCommand(OpenFolderExecute);
             SelectedTabIndex = 0;
         }
+
+        private void OpenFolderExecute()
+        {
+            string argument = @"/select, " + SaveFolderPath;
+
+            System.Diagnostics.Process.Start("explorer.exe", argument);
+
+        }
+
         private async void DeleteProjectExecute ()
         {
             var window = Application.Current.MainWindow as MetroWindow;
