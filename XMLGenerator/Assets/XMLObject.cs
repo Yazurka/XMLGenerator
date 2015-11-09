@@ -34,7 +34,7 @@ namespace XMLGenerator.Assets
                                                                                           new XAttribute("To", folder.To), 
                                                                                           new XAttribute("IFC", folder.IFC))
                                                   ),
-                                                  new XElement("StartFile", new XAttribute("Value", discipline.StartFileViewModel.StartFile.Path)
+                                                  new XElement("StartFile", new XAttribute("From", discipline.StartFileViewModel.StartFile.FromPath), new XAttribute("To", discipline.StartFileViewModel.StartFile.ToPath)
                                                   )),
                                                   new XElement("Files",
                                                   from file in m_xmlViewModel.FileViewModel.Files

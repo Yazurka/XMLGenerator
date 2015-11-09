@@ -8,6 +8,7 @@ namespace XMLGenerator.Model
 {
     public class StartFile
     {
-        public string Path { get; set; }
+        public string FromPath { get; set; }
+        public string ToPath { get; set; }
     }
 }

@@ -190,7 +190,7 @@ namespace XMLGenerator.ViewModel
                     EmptyBool = false;
                 }
 
-                if (Discipline.StartFileViewModel.StartFile.Path != string.Empty && Discipline.StartFileViewModel.StartFile.Path != null)
+                if (Discipline.StartFileViewModel.StartFile.FromPath != string.Empty && Discipline.StartFileViewModel.StartFile.FromPath != null)
                 {
                     EmptyBool = false;
                 }
@@ -317,6 +317,7 @@ namespace XMLGenerator.ViewModel
             c = CTF.ToFieldGenerator(c);
             var xmlo = new XMLObject(c);
             var res = xmlo.GetXML();
+            SavePath = Path.GetDirectoryName(SavePath) + "\\" + c.ProjectName + ".xml";
             res.Save(SavePath);
             var window = Application.Current.MainWindow as MetroWindow;
             await window.ShowMessageAsync("File saved", "Your file has been saved to: \n" + SavePath);

@@ -20,8 +20,8 @@ namespace XMLGenerator.ViewModel
         private string m_value;
         public DisciplineViewModel()
         {
-            AddExportCommand = new DelegateCommand(AddFolderExecute);
-            StartFileViewModel = new StartFileViewModel();
+           AddExportCommand = new DelegateCommand(AddFolderExecute);
+           StartFileViewModel = new StartFileViewModel();
            ExportViewModels = new ObservableCollection<ExportViewModel> {new ExportViewModel()};
            
         }

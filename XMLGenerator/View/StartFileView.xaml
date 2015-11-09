@@ -10,7 +10,7 @@
     <StackPanel >
         <Label Content="Start file" Foreground="DarkSlateGray" FontSize="15" />
 
-        <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Path" Text="{Binding StartFile.Path, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
+        <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Path" Text="{Binding StartFile.FromPath, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
         
     </StackPanel>
 </UserControl>

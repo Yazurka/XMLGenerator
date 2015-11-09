@@ -44,7 +44,14 @@ namespace XMLGenerator.Assets
                 {
                     Discipline.Value = string.Empty;
                 }
-                Discipline.StartFileViewModel.StartFile.Path = ConvertFromTo(Discipline.StartFileViewModel.StartFile.Path);
+
+                if (string.IsNullOrEmpty(Discipline.StartFileViewModel.StartFile.ToPath))
+                {
+                    Discipline.StartFileViewModel.StartFile.ToPath = string.Empty;
+                }
+
+                
+                Discipline.StartFileViewModel.StartFile.ToPath = ConvertFromTo(Discipline.StartFileViewModel.StartFile.FromPath);
             }
 
             if (string.IsNullOrEmpty(_xmlViewModel.IFCViewModel.IFC.Export))
