@@ -19,12 +19,14 @@ namespace XMLGenerator.ViewModel
         private ICommand m_generateXmlCommand;
         private ICommand m_fileExplorerCommand;
         private ICommand m_deleteProjectCommand;
+
         private string m_savePath;
         private string m_basePath;
         private int m_selectedTabIndex;
         private ObservableCollection<ViewModelBase> m_viewModelBase;
 
         public ObservableCollection<ViewModelBase> CurrentViewModel { get { return m_viewModelBase; } set { m_viewModelBase = value; OnPropertyChanged("CurrentViewModel"); } }
+
         public int SelectedTabIndex 
         { 
             get 
@@ -42,6 +44,8 @@ namespace XMLGenerator.ViewModel
                 }
             }        
         }
+
+        public ICommand SaveFolderCommand { get; set; }
 
 
         public ICommand OpenSettings
@@ -77,7 +81,7 @@ namespace XMLGenerator.ViewModel
             set
             {
                 m_savePath = value;
-                OnPropertyChanged("SavePath");
+                OnPropertyChanged("SaveFolderPath");
             }
         }
 
@@ -96,11 +100,13 @@ namespace XMLGenerator.ViewModel
         {
             IsSettingsOpen = !IsSettingsOpen;
         }
+
         public MainViewModel()
         {
             m_openSettings = new DelegateCommand(flip);
             m_generateXmlCommand = new DelegateCommand(GenerateXmlExecute);
             FileExplorerCommand = new DelegateCommand(OpenExplorerExecute);
+            SaveFolderCommand = new DelegateCommand(SetSaveFolderPath);
             CurrentViewModel = InitialSetupXmlViewModel();
            
             m_basePath = ConfigurationManager.AppSettings["SavePath"];
@@ -125,6 +131,14 @@ namespace XMLGenerator.ViewModel
                     break;
             }
         }
+
+        private void SetSaveFolderPath()
+        {
+            System.Windows.Forms.FolderBrowserDialog p = new System.Windows.Forms.FolderBrowserDialog();
+            p.ShowDialog();
+            SaveFolderPath = p.SelectedPath;
+        }
+
         private void AddNewProject()
         {
             var newProject = new XmlViewModel{ProjectName = "New Project"};
@@ -317,7 +331,7 @@ namespace XMLGenerator.ViewModel
             c = CTF.ToFieldGenerator(c);
             var xmlo = new XMLObject(c);
             var res = xmlo.GetXML();
-            SaveFolderPath = Path.GetDirectoryName(SaveFolderPath) + "\\" + c.ProjectName + ".xml";
+            SaveFolderPath = SaveFolderPath + c.ProjectName + ".xml";
             res.Save(SaveFolderPath);
             var window = Application.Current.MainWindow as MetroWindow;
             await window.ShowMessageAsync("File saved", "Your file has been saved to: \n" + SaveFolderPath);

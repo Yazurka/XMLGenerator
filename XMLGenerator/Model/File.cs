@@ -16,7 +16,7 @@ namespace XMLGenerator.Model
         private string m_from;
         public File()
         {
-            FolderDialogCommand = new DelegateCommand(setPath);
+            FileDialogCommand = new DelegateCommand(setPath);
         }
 
         private void setPath()
@@ -25,7 +25,7 @@ namespace XMLGenerator.Model
             p.ShowDialog();
             From = p.SelectedPath;
         }
-        public ICommand FolderDialogCommand { get; set; }
+        public ICommand FileDialogCommand { get; set; }
         public string From { get { return m_from; } set { m_from = value; OnPropertyChanged("From"); } }
         public string To { get; set; }
     }
