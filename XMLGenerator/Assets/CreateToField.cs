@@ -45,9 +45,9 @@ namespace XMLGenerator.Assets
                     Discipline.Value = string.Empty;
                 }
 
-                if (string.IsNullOrEmpty(Discipline.StartFileViewModel.StartFile.ToPath))
+                if (string.IsNullOrEmpty(Discipline.StartFileViewModel.StartFile.FromPath))
                 {
-                    Discipline.StartFileViewModel.StartFile.ToPath = string.Empty;
+                    Discipline.StartFileViewModel.StartFile.FromPath = string.Empty;
                 }
 
                 
@@ -73,6 +73,7 @@ namespace XMLGenerator.Assets
 
                 File.To = ConvertFromTo(File.From);
             }
+
 
             _xmlViewModel.IFCViewModel.IFC.To = ConvertFromTo(_xmlViewModel.IFCViewModel.IFC.From);
 
