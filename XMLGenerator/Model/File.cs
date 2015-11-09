@@ -14,6 +14,7 @@ namespace XMLGenerator.Model
     public class File : ViewModelBase
     {
         private string m_from;
+        private ICommand m_fileDialogCommand;
         public File()
         {
             FileDialogCommand = new DelegateCommand(setPath);
@@ -25,7 +26,7 @@ namespace XMLGenerator.Model
             p.ShowDialog();
             From = p.SelectedPath;
         }
-        public ICommand FileDialogCommand { get; set; }
+        public ICommand FileDialogCommand { get { return m_fileDialogCommand; } set { m_fileDialogCommand = value; OnPropertyChanged("FileDialogCommand"); } }
         public string From { get { return m_from; } set { m_from = value; OnPropertyChanged("From"); } }
         public string To { get; set; }
     }

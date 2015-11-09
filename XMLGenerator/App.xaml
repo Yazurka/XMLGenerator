@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
                 </ResourceDictionary.MergedDictionaries>
             <DataTemplate DataType="{x:Type ViewModel:XmlViewModel}">
                 <View:XmlView/>
@@ -48,6 +49,28 @@
                         <Viewbox>
                             <Grid >
                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" Fill="#FF000000" Data="F1 M 53.2929,21.2929L 54.7071,22.7071C 56.4645,24.4645 56.4645,27.3137 54.7071,29.0711L 52.2323,31.5459L 44.4541,23.7677L 46.9289,21.2929C 48.6863,19.5355 51.5355,19.5355 53.2929,21.2929 Z M 31.7262,52.052L 23.948,44.2738L 43.0399,25.182L 50.818,32.9601L 31.7262,52.052 Z M 23.2409,47.1023L 28.8977,52.7591L 21.0463,54.9537L 23.2409,47.1023 Z "/>
+                            </Grid>
+                        </Viewbox>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="browseButton" TargetType="{x:Type Button}">
+                <Setter Property="Content">
+                    <Setter.Value>
+                        <Viewbox>
+                            <Grid >
+                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" Fill="#FF000000" Data="F1 M 21,30.0001L 55.9999,30.0001L 55.9999,50L 21,50L 21,30.0001 Z M 52,28L 37,28C 38,25 39.4999,24.0001 39.4999,24.0001L 50.75,24C 51.3023,24 52,24.6977 52,25.25L 52,28 Z"/>
+                            </Grid>
+                        </Viewbox>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="browseButton2" TargetType="{x:Type Button}">
+                <Setter Property="Content">
+                    <Setter.Value>
+                        <Viewbox>
+                            <Grid >
+                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" Fill="#FF000000" Data="F1 M 21,30.0001L 55.9999,30.0001L 55.9999,50L 21,50L 21,30.0001 Z M 52,28L 37,28C 38,25 39.4999,24.0001 39.4999,24.0001L 50.75,24C 51.3023,24 52,24.6977 52,25.25L 52,28 Z"/>
                             </Grid>
                         </Viewbox>
                     </Setter.Value>

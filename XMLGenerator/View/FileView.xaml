@@ -18,8 +18,18 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="From" Text="{Binding From, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
-                            <Button Grid.Column="1" Command="{Binding FileDialogCommand}" Content="Browse"/> 
-                    </Grid>
+                            <Button ToolTip="Browse" Background="Transparent" Width="20" Height="20" Grid.Column="1" Command="{Binding FileDialogCommand}" >
+                                <Button.Template> 
+                                    <ControlTemplate>
+                                         <Rectangle Fill="Black">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Visual="{StaticResource appbar_folder}" Stretch="Uniform" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

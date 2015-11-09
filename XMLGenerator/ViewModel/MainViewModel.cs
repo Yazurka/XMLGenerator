@@ -321,6 +321,7 @@ namespace XMLGenerator.ViewModel
         }
         private ObservableCollection<ViewModelBase> InitialSetupXmlViewModel()
         {
+            
             var xmlVM = new XmlViewModel();
             xmlVM.ProjectName = "Project1";
            // var xmlVM2 = new XmlViewModel();
