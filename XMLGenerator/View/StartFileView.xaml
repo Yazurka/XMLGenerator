@@ -9,8 +9,24 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel >
         <Label Content="Start file" Foreground="DarkSlateGray" FontSize="15" />
-
-        <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Path" Text="{Binding StartFile.FromPath, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
         
+        <TextBox Grid.Column="0" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Path" Text="{Binding StartFile.FromPath, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
+        <Button Grid.Column="1" ToolTip="Browse" Background="Transparent" Width="20" Height="20" Command="{Binding FileDialogCommand}" >
+            <Button.Template>
+                <ControlTemplate>
+                    <Rectangle Fill="Black">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource appbar_folder}" Stretch="Uniform" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        </Grid>
     </StackPanel>
 </UserControl>

@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
           
             <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="From" Text="{Binding FromBasePath, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
-            <Button Grid.Column="1" ToolTip="Browse" Background="Transparent" Width="20" Height="20" Command="{Binding FileDialogCommand}" >
+            <Button Grid.Column="1" ToolTip="Browse" Background="Transparent" Width="20" Height="20" Command="{Binding FileDialogFromCommand}" >
                 <Button.Template>
                     <ControlTemplate>
                         <Rectangle Fill="Black">
@@ -32,7 +32,7 @@
                 </Button.Template>
             </Button>
             <TextBox  Grid.Column="2" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="To" Text="{Binding ToBasePath, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
-            <Button Grid.Column="3" ToolTip="Browse" Background="Transparent" Width="20" Height="20" Command="{Binding FileDialogCommand}" >
+            <Button Grid.Column="3" ToolTip="Browse" Background="Transparent" Width="20" Height="20" Command="{Binding FileDialogToCommand}" >
                 <Button.Template>
                     <ControlTemplate>
                         <Rectangle Fill="Black">

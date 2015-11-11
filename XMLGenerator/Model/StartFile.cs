@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XMLGenerator.ViewModel;
 
 namespace XMLGenerator.Model
 {
-    public class StartFile
+    public class StartFile : ViewModelBase
     {
-        public string FromPath { get; set; }
-        public string ToPath { get; set; }
+        private string m_fromPath;
+        private string m_toPath;
+
+        public string FromPath { get { return m_fromPath; } set { m_fromPath = value; OnPropertyChanged("FromPath"); } }
+        public string ToPath { get { return m_toPath; } set { m_toPath = value; OnPropertyChanged("ToPath"); } }
     }
 }

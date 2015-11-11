@@ -11,7 +11,18 @@
  
     <StackPanel>
         <Border>
-            <Button ToolTip="Rename project" Height="20" Focusable="False" BorderThickness="0" Background="Transparent" HorizontalAlignment="Right" Style="{StaticResource btnCustom}" Command="{Binding RenameProjectCommand}"/>
+            <Button  HorizontalAlignment="Right" ToolTip="Rename project" Background="Transparent" Width="20" Height="20" Grid.Column="1" Command="{Binding RenameProjectCommand}" >
+                <Button.Template>
+                    <ControlTemplate>
+                        <Rectangle Fill="Black">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Visual="{StaticResource appbar_edit}" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            
         </Border>
         
         <ContentPresenter Content="{Binding BaseFolderViewModel}"/>
