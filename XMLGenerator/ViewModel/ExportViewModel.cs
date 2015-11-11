@@ -16,6 +16,7 @@ namespace XMLGenerator.ViewModel
         public ExportViewModel()
         {
             FolderViewModel = new FolderViewModel ();
+            IsVisible = true;
            
         }
         private bool m_isVisible;

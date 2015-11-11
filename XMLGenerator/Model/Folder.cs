@@ -22,7 +22,7 @@ namespace XMLGenerator.Model
         public Folder()
         {
             FileDialogFromCommand = new DelegateCommand(FileDialogFromExecute);
-           
+            IsVisible = true;
         }
 
         private void FileDialogFromExecute()

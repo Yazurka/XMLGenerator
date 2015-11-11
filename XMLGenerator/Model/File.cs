@@ -19,6 +19,7 @@ namespace XMLGenerator.Model
         public File()
         {
             FileDialogCommand = new DelegateCommand(setPath);
+            IsVisible = true;
         }
 
         private void setPath()
