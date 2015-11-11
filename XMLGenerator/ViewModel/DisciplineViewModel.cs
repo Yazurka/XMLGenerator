@@ -15,16 +15,26 @@ namespace XMLGenerator.ViewModel
         
         private ICommand m_addExportCommand;
         private StartFileViewModel m_startFileViewModel;
-        private ObservableCollection<ExportViewModel> m_exportViewModels; 
-
+        private ObservableCollection<ExportViewModel> m_exportViewModels;
+        private ICommand m_removeDisciplineCommand;
         private string m_value;
+        private bool m_isVisible;
         public DisciplineViewModel()
         {
            AddExportCommand = new DelegateCommand(AddFolderExecute);
            StartFileViewModel = new StartFileViewModel();
            ExportViewModels = new ObservableCollection<ExportViewModel> {new ExportViewModel()};
+           RemoveDisciplineCommand = new DelegateCommand(RemoveDisciplineExecute);
            
         }
+
+        private void RemoveDisciplineExecute()
+        {
+           
+        }
+        public bool IsVisible { get { return m_isVisible; } set { m_isVisible = value; OnPropertyChanged("IsVisible"); } }
+
+        public ICommand RemoveDisciplineCommand { get { return m_removeDisciplineCommand; } set { m_removeDisciplineCommand = value; OnPropertyChanged("RemoveDisciplineCommand"); } }
         public string Value { get { return m_value; } set { m_value = value; OnPropertyChanged("Value"); } }
         public StartFileViewModel StartFileViewModel { get { return m_startFileViewModel; } set { m_startFileViewModel = value; OnPropertyChanged("StartFile"); } }
         public ObservableCollection<ExportViewModel> ExportViewModels { get { return m_exportViewModels; } set { m_exportViewModels = value; OnPropertyChanged("ExportViewModels"); } }

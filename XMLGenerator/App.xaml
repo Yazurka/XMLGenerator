@@ -76,6 +76,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <BooleanToVisibilityConverter x:Key="boolToVisConverter"/>
         </ResourceDictionary>
         
     </Application.Resources>

@@ -8,6 +8,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Expander  Header="Discipline" Foreground="DarkSlateGray" FontSize="20">
+        <Expander.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Remove Discipline" Command="{Binding RemoveDisciplineCommand}"/>
+            </ContextMenu>
+        </Expander.ContextMenu>
     <StackPanel>
         <!--<Label Content="Discipline" Foreground="DarkSlateGray" FontSize="20" />-->
         <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="Name" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Margin="5" />

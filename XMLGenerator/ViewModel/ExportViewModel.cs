@@ -17,7 +17,9 @@ namespace XMLGenerator.ViewModel
         {
             FolderViewModel = new FolderViewModel ();
            
-        } 
+        }
+        private bool m_isVisible;
+        public bool IsVisible { get { return m_isVisible; } set { m_isVisible = value; OnPropertyChanged("IsVisible"); } }
 
         public FolderViewModel FolderViewModel { get { return m_folderViewModel; } set { m_folderViewModel = value; OnPropertyChanged("FolderViewModel"); } }
         
