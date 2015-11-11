@@ -157,6 +157,9 @@ namespace XMLGenerator.ViewModel
         {
             System.Windows.Forms.FolderBrowserDialog p = new System.Windows.Forms.FolderBrowserDialog();
             p.ShowDialog();
+            if(string.IsNullOrEmpty(p.SelectedPath)){
+                return;
+            }
             SaveFolderPath = p.SelectedPath;
         }
 
