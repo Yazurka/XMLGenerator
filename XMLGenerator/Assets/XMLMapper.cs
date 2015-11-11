@@ -19,6 +19,7 @@ namespace XMLGenerator.Assets
     {
         public XmlViewModel MapXMLToXmlViewModel(string path)
         {
+             
             var XMLvm = new XmlViewModel();
             XElement xdoc = XElement.Load(path);
             XMLvm.ProjectName = xdoc.Attribute("Name").Value;
