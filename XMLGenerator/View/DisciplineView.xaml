@@ -7,7 +7,7 @@
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Expander  Header="Discipline" Foreground="DarkSlateGray" FontSize="20">
+    <Expander  Header="Discipline" Foreground="DarkSlateGray" FontSize="20" Visibility="{Binding IsVisible,Converter={StaticResource boolToVisConverter}}">
         <Expander.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Remove Discipline" Command="{Binding RemoveDisciplineCommand}"/>

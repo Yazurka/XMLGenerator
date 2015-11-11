@@ -262,6 +262,10 @@ namespace XMLGenerator.ViewModel
 
         private async void LoadFromXML(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                return;
+            }
             var TabIndex = SelectedTabIndex;
             var mapper = new XMLMapper();
             var p = mapper.MapXMLToXmlViewModel(path);

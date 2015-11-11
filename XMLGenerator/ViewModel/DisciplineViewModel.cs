@@ -31,7 +31,7 @@ namespace XMLGenerator.ViewModel
 
         private void RemoveDisciplineExecute()
         {
-           
+            IsVisible = false;
         }
         public bool IsVisible { get { return m_isVisible; } set { m_isVisible = value; OnPropertyChanged("IsVisible"); } }
 
