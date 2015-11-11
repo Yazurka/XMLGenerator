@@ -15,6 +15,7 @@ namespace XMLGenerator.Model
         private string m_from;
         private string m_ifc;
         private bool m_isVisible;
+        private ICommand m_removeCommand;
 
         private ICommand m_fileDialogFromCommand;
        
@@ -23,6 +24,7 @@ namespace XMLGenerator.Model
         {
             FileDialogFromCommand = new DelegateCommand(FileDialogFromExecute);
             IsVisible = true;
+            RemoveCommand = new DelegateCommand(RemoveExecute);
         }
 
         private void FileDialogFromExecute()
@@ -38,8 +40,12 @@ namespace XMLGenerator.Model
             p.ShowDialog();
             IFC = p.SelectedPath;
         }
-
-        
+       
+        private void RemoveExecute()
+        {
+            IsVisible = false;
+        }
+        public ICommand RemoveCommand { get { return m_removeCommand; } set { m_removeCommand = value; OnPropertyChanged("RemoveCommand"); } }
         public bool IsVisible { get { return m_isVisible; } set { m_isVisible = value; OnPropertyChanged("IsVisible"); } }
         public ICommand FileDialogFromCommand { get { return m_fileDialogFromCommand; } set { m_fileDialogFromCommand = value; OnPropertyChanged("FileDialogFromCommand"); } }
       

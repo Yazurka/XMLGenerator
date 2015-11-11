@@ -14,12 +14,13 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     
-                   <Grid>
+                   <Grid Visibility="{Binding IsVisible, Converter={StaticResource boolToVisConverter}}">
                        <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                            <ColumnDefinition Width="150"/>
-                                
+                                <ColumnDefinition Width="Auto"/>
+
                             </Grid.ColumnDefinitions>
                         <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="From" Text="{Binding From, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
                             <Button Grid.Column="1" ToolTip="Browse" Background="Transparent" Width="20" Height="20" Command="{Binding FileDialogFromCommand}" >
@@ -34,7 +35,17 @@
                                 </Button.Template>
                             </Button>
                             <TextBox Grid.Column="2" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="IFC" Text="{Binding IFC, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
-                           
+                            <Button ToolTip="Remove" Background="Transparent" Width="15" Height="15" Margin="5,0,0,0" Grid.Column="3" Command="{Binding RemoveCommand}" >
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Rectangle Fill="Black">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Visual="{StaticResource appbar_delete}" Stretch="Uniform" />
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
 
                         </Grid>
                     
