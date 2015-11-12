@@ -61,7 +61,7 @@ namespace XMLGenerator.Model
             }
         }
 
-        private async void FileDialogIFCExecute()
+        private void FileDialogIFCExecute()
         {
             FolderBrowserDialog p = new FolderBrowserDialog();
             p.ShowDialog();

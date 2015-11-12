@@ -27,7 +27,7 @@ namespace XMLGenerator.Assets
             var disciplinecol = new ObservableCollection<DisciplineViewModel>();
             foreach (var dis in Dicsiplines)
             {
-               var disciplineVM = new DisciplineViewModel();
+                var disciplineVM = new DisciplineViewModel(XMLvm);
                 disciplineVM.Value = dis.Attribute("Value").Value;
                 var exportVMCOL = new ObservableCollection<ExportViewModel>();
                 
@@ -35,10 +35,10 @@ namespace XMLGenerator.Assets
                 disciplineVM.StartFileViewModel = new StartFileViewModel {StartFile = startfile};
                 var exps = dis.Elements("Export");
                 foreach (var exp in exps)
-                { 
-                    var expVM = new ExportViewModel();
+                {
+                    var expVM = new ExportViewModel(XMLvm);
 
-                    var fVM = new FolderViewModel();
+                    var fVM = new FolderViewModel(XMLvm);
                     var foldersCol = new ObservableCollection<Folder>();
                     var folders = exp.Elements("Folder");
                     foreach (var folder in folders)
@@ -70,7 +70,7 @@ namespace XMLGenerator.Assets
                 var f = new File {From = file.Attribute("From").Value,To=file.Attribute("To").Value};
                 filecol.Add(f);
             }
-            var fileVM = new FileViewModel();
+            var fileVM = new FileViewModel(xmlViewModel);
             fileVM.Files = filecol;
 
             XMLvm.FileViewModel = fileVM;
@@ -83,7 +83,7 @@ namespace XMLGenerator.Assets
 
             var ifc = xdoc.Element("IFC");
 
-            var ifcvm = new IFCViewModel
+            var ifcvm = new IFCViewModel(xmlViewModel)
             {
                 IFC = new IFC { Export = ifc.Attribute("Export").Value, To = ifc.Attribute("To").Value, From = ifc.Attribute("From").Value }
             };
