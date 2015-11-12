@@ -27,6 +27,7 @@ namespace XMLGenerator.Model
         }
         public ICommand FileDialogFromCommand { get { return m_fileDialogFromCommand; } set { m_fileDialogFromCommand = value; OnPropertyChanged("FileDialogFromCommand"); } }
 
+        public string FromRestriction { get; set; }
         public string From { get { return m_from; } set { m_from = value; OnPropertyChanged("From"); } }
         public string To { get; set; }
         public string Export { get; set; }
