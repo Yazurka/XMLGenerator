@@ -141,7 +141,7 @@ namespace XMLGenerator.ViewModel
             MetroDialogSettings Settings = new MetroDialogSettings();
             Settings.AffirmativeButtonText = "Yes";
             Settings.NegativeButtonText = "No";
-            var x = await window.ShowMessageAsync("Delete", "Are you sure you want to delete the project?", MessageDialogStyle.AffirmativeAndNegative, Settings);
+            var x = await window.ShowMessageAsync("Unload", "Are you sure you want to unload the project?", MessageDialogStyle.AffirmativeAndNegative, Settings);
 
             switch (x)
             {
