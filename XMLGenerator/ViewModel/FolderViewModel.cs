@@ -14,13 +14,15 @@ namespace XMLGenerator.ViewModel
      {
         private ICommand m_addFolderCommand;
         private ObservableCollection<Folder> m_folders;
+        private XmlViewModel m_xmlViewModel;
 
-         public FolderViewModel()
+         public FolderViewModel(XmlViewModel xmlViewModel)
          {
+             m_xmlViewModel = xmlViewModel;
              AddFolderCommand = new DelegateCommand(AddFolderExecute);
-            
-             
-             Folders = new ObservableCollection<Folder> {new Folder()};
+
+
+             Folders = new ObservableCollection<Folder> { new Folder { FromRestriction = m_xmlViewModel.BaseFolderViewModel.FromBasePath } };
              
          }
 
@@ -41,7 +43,7 @@ namespace XMLGenerator.ViewModel
         }
         private void AddFolderExecute()
         {
-            Folders.Add(new Folder());
+            Folders.Add(new Folder { FromRestriction = m_xmlViewModel.BaseFolderViewModel.FromBasePath });
         }
     }
 }

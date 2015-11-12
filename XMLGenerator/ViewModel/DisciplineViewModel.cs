@@ -19,11 +19,13 @@ namespace XMLGenerator.ViewModel
         private ICommand m_removeDisciplineCommand;
         private string m_value;
         private bool m_isVisible;
-        public DisciplineViewModel()
+        private XmlViewModel m_xmlViewModel;
+        public DisciplineViewModel(XmlViewModel xmlViewModel)
         {
+            m_xmlViewModel = xmlViewModel;
            AddExportCommand = new DelegateCommand(AddFolderExecute);
            StartFileViewModel = new StartFileViewModel();
-           ExportViewModels = new ObservableCollection<ExportViewModel> {new ExportViewModel()};
+           ExportViewModels = new ObservableCollection<ExportViewModel> {new ExportViewModel(m_xmlViewModel)};
            RemoveDisciplineCommand = new DelegateCommand(RemoveDisciplineExecute);
            IsVisible = true;
            
@@ -52,7 +54,7 @@ namespace XMLGenerator.ViewModel
 
         private void AddFolderExecute()
         {
-            ExportViewModels.Add(new ExportViewModel());
+            ExportViewModels.Add(new ExportViewModel(m_xmlViewModel));
         }
     }
 }

@@ -64,8 +64,8 @@ namespace XMLGenerator.ViewModel
 
             FolderBrowserDialog p = new FolderBrowserDialog();
             p.ShowDialog();
-            ToBasePath = p.SelectedPath;
+            ToBasePath = p.SelectedPath;          
         }
-        
+                
     }
 }

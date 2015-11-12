@@ -16,9 +16,11 @@ namespace XMLGenerator.ViewModel
         private string m_value;
         private ICommand m_removeExportCommand;
         private bool m_isVisible;
-        public ExportViewModel()
+        private XmlViewModel m_xmlViewModel;
+        public ExportViewModel(XmlViewModel xmlViewModel)
         {
-            FolderViewModel = new FolderViewModel ();
+            m_xmlViewModel = xmlViewModel;
+            FolderViewModel = new FolderViewModel(m_xmlViewModel);
             RemoveExportCommand = new DelegateCommand(RemoveExportExecute);
             IsVisible = true;
             
