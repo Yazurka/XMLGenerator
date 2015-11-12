@@ -36,8 +36,8 @@ namespace XMLGenerator.Model
             FolderBrowserDialog p = new FolderBrowserDialog();
             p.ShowDialog();
             var selectedPath = p.SelectedPath;
-            //var isValid = PathValidator.ValidatePath(FromRestriction, selectedPath);
-            var isValid = true;
+            var isValid = PathValidator.ValidatePath(FromRestriction, selectedPath);
+            
             if (isValid)
             {
                 From = p.SelectedPath;
