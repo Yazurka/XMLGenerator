@@ -28,33 +28,12 @@ namespace XMLGenerator.Model
 
         private async void setPath()
         {
-            From = await PathValidator.SelectPath(FromRestriction);
+            var x = await PathValidator.SelectFilePath(FromRestriction);
+            if (x != "")
+            {
+                From = x;
+            }
 
-            //FolderBrowserDialog p = new FolderBrowserDialog();
-            //p.ShowDialog();
-            //var selectedPath = p.SelectedPath;
-            //var isValid = PathValidator.ValidatePath(FromRestriction, selectedPath);
-            //if (isValid)
-            //{
-            //    From = p.SelectedPath;
-            //}
-            //else
-            //{
-            //    var window = System.Windows.Application.Current.MainWindow as MetroWindow;
-            //    MetroDialogSettings Settings = new MetroDialogSettings();
-            //    Settings.AffirmativeButtonText = "Yes";
-            //    Settings.NegativeButtonText = "No";
-            //    var x = await window.ShowMessageAsync("Not allowed", "The selected path is invalid, do you want to try again?", MessageDialogStyle.AffirmativeAndNegative, Settings);
-
-            //    switch (x)
-            //    {
-            //        case MessageDialogResult.Negative:
-            //            return;
-            //        case MessageDialogResult.Affirmative:
-            //            setPath();
-            //            break;
-            //    }
-            //}
         }
 
         private ICommand m_removeCommand;

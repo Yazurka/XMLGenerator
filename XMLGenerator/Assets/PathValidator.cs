@@ -32,13 +32,20 @@ namespace XMLGenerator.Assets
             return false;
         }
 
-        public static async Task<string> SelectPath(string BaseFolderPath)
+        public static async Task<string> SelectFolderPath(string BaseFolderPath)
         {
             var returnString = string.Empty;
 
             FolderBrowserDialog p = new FolderBrowserDialog();
+            p.SelectedPath = BaseFolderPath;
             p.ShowDialog();
             var selectedPath = p.SelectedPath;
+
+            if (selectedPath == string.Empty)
+            {
+                return "";
+            }
+
             var isValid = PathValidator.ValidatePath(BaseFolderPath, selectedPath);
 
             if (!isValid)
@@ -54,13 +61,48 @@ namespace XMLGenerator.Assets
                     case MessageDialogResult.Negative:
                         return "";
                     case MessageDialogResult.Affirmative:                        
-                        return await SelectPath(BaseFolderPath);
+                        return await SelectFolderPath(BaseFolderPath);
                 }
             }
 
-            return p.SelectedPath;
+            return selectedPath;
         }
 
+        public static async Task<string> SelectFilePath(string BaseFolderPath)
+        {
+            var returnString = string.Empty;
+
+            OpenFileDialog p = new OpenFileDialog();
+            p.InitialDirectory = BaseFolderPath;
+            p.ShowDialog();
+            var selectedPath = p.FileName;
+
+            if (selectedPath == string.Empty)
+            {
+                return "";
+            }
+
+            var isValid = PathValidator.ValidatePath(BaseFolderPath, selectedPath);
+
+            if (!isValid)
+            {
+                var window = System.Windows.Application.Current.MainWindow as MetroWindow;
+                MetroDialogSettings Settings = new MetroDialogSettings();
+                Settings.AffirmativeButtonText = "Yes";
+                Settings.NegativeButtonText = "No";
+                var x = await window.ShowMessageAsync("Not allowed", "The selected path is invalid, do you want to try again?", MessageDialogStyle.AffirmativeAndNegative, Settings);
+
+                switch (x)
+                {
+                    case MessageDialogResult.Negative:
+                        return "";
+                    case MessageDialogResult.Affirmative:
+                        return await SelectFolderPath(BaseFolderPath);
+                }
+            }
+
+            return selectedPath;
+        }
 
     }
 }
