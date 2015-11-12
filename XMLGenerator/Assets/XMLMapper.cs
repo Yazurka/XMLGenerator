@@ -17,7 +17,7 @@ namespace XMLGenerator.Assets
 {
     public class XMLMapper
     {
-        public XmlViewModel MapXMLToXmlViewModel(string path)
+        public XmlViewModel MapXMLToXmlViewModel(string path, XmlViewModel xmlViewModel)
         {
              
             var XMLvm = new XmlViewModel();
@@ -78,7 +78,7 @@ namespace XMLGenerator.Assets
 
             var basef = xdoc.Element("BaseFolder");
 
-            var BaseVm = new BaseFolderViewModel {FromBasePath = basef.Attribute("From").Value,ToBasePath = basef.Attribute("To").Value};
+            var BaseVm = new BaseFolderViewModel(xmlViewModel) {FromBasePath = basef.Attribute("From").Value,ToBasePath = basef.Attribute("To").Value};
             XMLvm.BaseFolderViewModel = BaseVm;
 
             var ifc = xdoc.Element("IFC");

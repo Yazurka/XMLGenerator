@@ -15,18 +15,48 @@ namespace XMLGenerator.ViewModel
         private string m_fromBasePath;
         private ICommand m_fileDialogFromCommand;
         private ICommand m_fileDialogToCommand;
+        private XmlViewModel m_xmlViewModel;
 
-        public BaseFolderViewModel()
+        public BaseFolderViewModel(XmlViewModel xmlViewModel)
         {
+            m_xmlViewModel = xmlViewModel;
             FileDialogToCommand = new DelegateCommand(FileDialogToExecute);
             FileDialogFromCommand = new DelegateCommand(FileDialogFromEcecute);
         }
+
+        public ICommand FileDialogToCommand { get { return m_fileDialogToCommand; } set { m_fileDialogToCommand = value; OnPropertyChanged("FileDialogToCommand"); } }
+        public ICommand FileDialogFromCommand { get { return m_fileDialogFromCommand; } set { m_fileDialogFromCommand = value; OnPropertyChanged("FileDialogFromCommand"); } }
+
+        public string FromBasePath { get { return m_fromBasePath; } set { m_fromBasePath = value; OnPropertyChanged("FromBasePath"); } }
+        public string ToBasePath { get { return m_toBasePath; } set { m_toBasePath = value; OnPropertyChanged("ToBasePath"); } }
 
         private void FileDialogFromEcecute()
         {
             FolderBrowserDialog p = new FolderBrowserDialog();
             p.ShowDialog();
             FromBasePath = p.SelectedPath;
+            SetFromBaseFolders();
+        }
+
+        private void SetFromBaseFolders()
+        {
+            m_xmlViewModel.IFCViewModel.IFC.From = FromBasePath;
+           
+            foreach(var file in m_xmlViewModel.FileViewModel.Files){
+                file.From = FromBasePath;
+            }
+            foreach(var dicsipline in m_xmlViewModel.DisciplineViewModels){
+
+                dicsipline.StartFileViewModel.StartFile.FromPath = FromBasePath;
+
+                foreach(var export in dicsipline.ExportViewModels){
+                    
+                    foreach (var folder in export.FolderViewModel.Folders)
+                    {
+                        folder.FromRestriction = FromBasePath;
+                    }
+                }
+            }
         }
 
         private void FileDialogToExecute()
@@ -36,10 +66,6 @@ namespace XMLGenerator.ViewModel
             p.ShowDialog();
             ToBasePath = p.SelectedPath;
         }
-        public ICommand FileDialogToCommand { get { return m_fileDialogToCommand; } set { m_fileDialogToCommand = value; OnPropertyChanged("FileDialogToCommand"); } }
-        public ICommand FileDialogFromCommand { get { return m_fileDialogFromCommand; } set { m_fileDialogFromCommand = value; OnPropertyChanged("FileDialogFromCommand"); } }
-
-        public string FromBasePath { get { return m_fromBasePath; } set { m_fromBasePath = value; OnPropertyChanged("FromBasePath"); } }
-        public string ToBasePath { get { return m_toBasePath; } set { m_toBasePath = value; OnPropertyChanged("ToBasePath"); } }
+        
     }
 }

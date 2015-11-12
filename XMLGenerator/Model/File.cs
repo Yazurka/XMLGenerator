@@ -36,7 +36,7 @@ namespace XMLGenerator.Model
             IsVisible = false;
         }
         public ICommand RemoveCommand { get { return m_removeCommand; } set { m_removeCommand = value; OnPropertyChanged("RemoveCommand"); } }
-        
+        public string FromRestriction { get; set; }
         public bool IsVisible { get { return m_isVisible; } set { m_isVisible = value; OnPropertyChanged("IsVisible"); } }
         public ICommand FileDialogCommand { get { return m_fileDialogCommand; } set { m_fileDialogCommand = value; OnPropertyChanged("FileDialogCommand"); } }
         public string From { get { return m_from; } set { m_from = value; OnPropertyChanged("From"); } }

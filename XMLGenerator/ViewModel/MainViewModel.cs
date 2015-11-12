@@ -271,7 +271,7 @@ namespace XMLGenerator.ViewModel
             }
             var TabIndex = SelectedTabIndex;
             var mapper = new XMLMapper();
-            var p = mapper.MapXMLToXmlViewModel(path);
+            var p = mapper.MapXMLToXmlViewModel(path,CurrentViewModel[SelectedTabIndex] as XmlViewModel);
 
             if (CurrentViewModel.Count == 0)
             {

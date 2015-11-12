@@ -20,7 +20,7 @@ namespace XMLGenerator.ViewModel
         public XmlViewModel()
         {
             DisciplineViewModels = new ObservableCollection<DisciplineViewModel> {new DisciplineViewModel() };
-            BaseFolderViewModel = new BaseFolderViewModel();
+            BaseFolderViewModel = new BaseFolderViewModel(this);
             IFCViewModel = new IFCViewModel();
             FileViewModel = new FileViewModel();
             AddDiciplineCommand = new DelegateCommand(AddDiciplineExecute);
