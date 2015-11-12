@@ -29,7 +29,7 @@ namespace XMLGenerator.ViewModel
         }
 
         public ICommand FileDialogCommand { get { return m_fileDialogCommand; } set { m_fileDialogCommand = value; OnPropertyChanged("FileDialogCommand"); } }
-
+        
         public StartFile StartFile
         {
             get { return m_startFile; }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Practices.Prism.Commands;
+﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Practices.Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using XMLGenerator.Assets;
 using XMLGenerator.ViewModel;
+
 
 namespace XMLGenerator.Model
 {
@@ -27,18 +31,42 @@ namespace XMLGenerator.Model
             RemoveCommand = new DelegateCommand(RemoveExecute);
         }
 
-        private void FileDialogFromExecute()
+        private async void FileDialogFromExecute()
         {
             FolderBrowserDialog p = new FolderBrowserDialog();
             p.ShowDialog();
-            From = p.SelectedPath;
+            var selectedPath = p.SelectedPath;
+            var isValid = PathValidator.ValidatePath(FromRestriction, selectedPath);
+            if (isValid)
+            {
+                From = p.SelectedPath;
+            }
+            else
+            {
+                var window = System.Windows.Application.Current.MainWindow as MetroWindow;
+                MetroDialogSettings Settings = new MetroDialogSettings();
+                Settings.AffirmativeButtonText = "Yes";
+                Settings.NegativeButtonText = "No";
+                var x = await window.ShowMessageAsync("Not allowed", "The selected path is invalid, do you want to try again?", MessageDialogStyle.AffirmativeAndNegative, Settings);
+
+                switch (x)
+                {
+                    case MessageDialogResult.Negative:
+                        return;
+                    case MessageDialogResult.Affirmative:
+                        FileDialogFromExecute();
+                        break;
+                }
+
+            }
         }
 
-        private void FileDialogIFCExecute()
+        private async void FileDialogIFCExecute()
         {
             FolderBrowserDialog p = new FolderBrowserDialog();
             p.ShowDialog();
             IFC = p.SelectedPath;
+            
         }
        
         private void RemoveExecute()

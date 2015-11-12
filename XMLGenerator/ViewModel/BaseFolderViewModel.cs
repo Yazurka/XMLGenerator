@@ -40,14 +40,14 @@ namespace XMLGenerator.ViewModel
 
         private void SetFromBaseFolders()
         {
-            m_xmlViewModel.IFCViewModel.IFC.From = FromBasePath;
+            m_xmlViewModel.IFCViewModel.IFC.FromRestriction = FromBasePath;
            
             foreach(var file in m_xmlViewModel.FileViewModel.Files){
-                file.From = FromBasePath;
+                file.FromRestriction = FromBasePath;
             }
             foreach(var dicsipline in m_xmlViewModel.DisciplineViewModels){
 
-                dicsipline.StartFileViewModel.StartFile.FromPath = FromBasePath;
+                dicsipline.StartFileViewModel.StartFile.FromRestriction = FromBasePath;
 
                 foreach(var export in dicsipline.ExportViewModels){
                     
