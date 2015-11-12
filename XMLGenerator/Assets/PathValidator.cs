@@ -13,7 +13,7 @@ namespace XMLGenerator.Assets
     {
         private static bool Cancel = false;
 
-        private static bool ValidatePath(string BaseFolderPath, string SelectedPath)
+        public static bool ValidatePath(string BaseFolderPath, string SelectedPath)
         {
             if (string.IsNullOrEmpty(BaseFolderPath))
             {
