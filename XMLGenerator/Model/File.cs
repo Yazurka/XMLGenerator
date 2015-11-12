@@ -26,9 +26,9 @@ namespace XMLGenerator.Model
             RemoveCommand = new DelegateCommand(RemoveExecute);
         }
 
-        private void setPath()
+        private async void setPath()
         {
-            From = PathValidator.SelectPath(FromRestriction);
+            From = await PathValidator.SelectPath(FromRestriction);
 
             //FolderBrowserDialog p = new FolderBrowserDialog();
             //p.ShowDialog();

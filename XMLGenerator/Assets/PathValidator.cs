@@ -11,16 +11,20 @@ namespace XMLGenerator.Assets
 {
     public static class PathValidator
     {
-        private static bool Cancel = false;
 
         public static bool ValidatePath(string BaseFolderPath, string SelectedPath)
         {
-            if (string.IsNullOrEmpty(BaseFolderPath))
+            if (string.IsNullOrEmpty(SelectedPath))
             {
                 return false;
             }
 
-            if (SelectedPath.Substring(BaseFolderPath.Length) == BaseFolderPath)
+            if (SelectedPath.Length < BaseFolderPath.Length)
+            {
+                return false;
+            }
+
+            if (SelectedPath.Substring(0,BaseFolderPath.Length) == BaseFolderPath)
             {
                 return true;
             }
@@ -28,7 +32,7 @@ namespace XMLGenerator.Assets
             return false;
         }
 
-        public static string SelectPath(string BaseFolderPath)
+        public static async Task<string> SelectPath(string BaseFolderPath)
         {
             var returnString = string.Empty;
 
@@ -36,38 +40,27 @@ namespace XMLGenerator.Assets
             p.ShowDialog();
             var selectedPath = p.SelectedPath;
             var isValid = PathValidator.ValidatePath(BaseFolderPath, selectedPath);
-            while (PathValidator.ValidatePath(BaseFolderPath, selectedPath) && !Cancel)
+
+            if (!isValid)
             {
-                if (PathValidator.ValidatePath(BaseFolderPath, selectedPath))
+                var window = System.Windows.Application.Current.MainWindow as MetroWindow;
+                MetroDialogSettings Settings = new MetroDialogSettings();
+                Settings.AffirmativeButtonText = "Yes";
+                Settings.NegativeButtonText = "No";
+                var x = await window.ShowMessageAsync("Not allowed", "The selected path is invalid, do you want to try again?", MessageDialogStyle.AffirmativeAndNegative, Settings);
+
+                switch (x)
                 {
-                    returnString = p.SelectedPath;
-                    break;
+                    case MessageDialogResult.Negative:
+                        return "";
+                    case MessageDialogResult.Affirmative:                        
+                        return await SelectPath(BaseFolderPath);
                 }
-                else
-                {
-                    Message(BaseFolderPath, p.SelectedPath);
-                }        
             }
+
             return p.SelectedPath;
         }
 
-        private static async void Message(string BaseFolderPath, string SelectedPath)
-        {
-            var window = System.Windows.Application.Current.MainWindow as MetroWindow;
-            MetroDialogSettings Settings = new MetroDialogSettings();
-            Settings.AffirmativeButtonText = "Yes";
-            Settings.NegativeButtonText = "No";
-            var x = await window.ShowMessageAsync("Not allowed", "The selected path is invalid, do you want to try again?", MessageDialogStyle.AffirmativeAndNegative, Settings);
-
-            switch (x)
-            {
-                case MessageDialogResult.Negative:
-                    Cancel = true;
-                    break;
-                case MessageDialogResult.Affirmative:                    
-                    break;
-            }
-        }
 
     }
 }
