@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,14 @@ namespace XMLGenerator.Assets
                         Folder.To = ConvertFromTo(Folder.From);
                     }
 
+                    var FoldersToRemove = Export.FolderViewModel.Folders.Where(x => x.IsVisible == false).ToList();
+
+                    foreach (var folder in FoldersToRemove)
+                    {
+                        Export.FolderViewModel.Folders.Remove(folder);
+                    }                   
+
+
                     if (string.IsNullOrEmpty(Export.Value))
                     {
                         Export.Value = string.Empty;
@@ -49,9 +58,16 @@ namespace XMLGenerator.Assets
                 {
                     Discipline.StartFileViewModel.StartFile.FromPath = string.Empty;
                 }
-
-                
+                                
                 Discipline.StartFileViewModel.StartFile.ToPath = ConvertFromTo(Discipline.StartFileViewModel.StartFile.FromPath);
+
+                var ExportsToRemove = Discipline.ExportViewModels.Where(x => x.IsVisible == false).ToList();
+
+                foreach (var export in ExportsToRemove)
+                {
+                    Discipline.ExportViewModels.Remove(export);
+                }
+
             }
 
             if (string.IsNullOrEmpty(_xmlViewModel.IFCViewModel.IFC.Export))
@@ -74,6 +90,19 @@ namespace XMLGenerator.Assets
                 File.To = ConvertFromTo(File.From);
             }
 
+            var FilesToRemove = _xmlViewModel.FileViewModel.Files.Where(x => x.IsVisible == false).ToList();
+
+            foreach (var export in FilesToRemove)
+            {
+                _xmlViewModel.FileViewModel.Files.Remove(export);
+            }
+
+            var DisciplineToRemove = _xmlViewModel.DisciplineViewModels.Where(x => x.IsVisible == false).ToList();
+
+            foreach (var export in DisciplineToRemove)
+            {
+                _xmlViewModel.DisciplineViewModels.Remove(export);
+            }
 
             _xmlViewModel.IFCViewModel.IFC.To = ConvertFromTo(_xmlViewModel.IFCViewModel.IFC.From);
 
@@ -82,12 +111,13 @@ namespace XMLGenerator.Assets
 
         private string ConvertFromTo(string From)
         {
-            if (!string.IsNullOrEmpty(From))
+            if (!string.IsNullOrEmpty(From) && !string.IsNullOrEmpty(baseFromFolder))
             {
                 return baseToFolder + From.Substring(baseFromFolder.Length);
             }
 
             return string.Empty;
+
 
         }
     }
