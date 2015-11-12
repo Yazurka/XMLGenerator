@@ -12,6 +12,11 @@ namespace XMLGenerator.Assets
         {
             var IsValid = false;
 
+            if (SelectedPath.Substring(BaseFolderPath.Length) == BaseFolderPath)
+            {
+                IsValid = true;
+            }           
+            
 
             return IsValid;
         }
