@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Input;
 using XMLGenerator.ViewModel;
-
+using XMLGenerator.Assets;
 
 namespace XMLGenerator.Model
 {
@@ -17,14 +17,18 @@ namespace XMLGenerator.Model
 
         public IFC()
         {
-            FileDialogFromCommand = new DelegateCommand(FileDialogFromExecute);
+            FileDialogFromCommand = new DelegateCommand(setPath);
         }
-        private void FileDialogFromExecute()
+
+        private async void setPath()
         {
-            FolderBrowserDialog p = new FolderBrowserDialog();
-            p.ShowDialog();
-            From = p.SelectedPath;
+            var x = await PathValidator.SelectFilePath(FromRestriction);
+            if (x != "")
+            {
+                From = x;
+            }
         }
+
         public ICommand FileDialogFromCommand { get { return m_fileDialogFromCommand; } set { m_fileDialogFromCommand = value; OnPropertyChanged("FileDialogFromCommand"); } }
 
         public string FromRestriction { get; set; }

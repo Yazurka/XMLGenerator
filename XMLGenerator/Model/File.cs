@@ -33,7 +33,6 @@ namespace XMLGenerator.Model
             {
                 From = x;
             }
-
         }
 
         private ICommand m_removeCommand;
