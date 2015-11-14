@@ -15,9 +15,11 @@ namespace XMLGenerator.ViewModel
     {
         private StartFile m_startFile;
         private ICommand m_fileDialogCommand;
-        public StartFileViewModel()
+        private XmlViewModel m_xmlViewModel;
+        public StartFileViewModel(XmlViewModel xmlViewModel)
         {
-           StartFile = new StartFile();
+            m_xmlViewModel = xmlViewModel;
+            StartFile = new StartFile { FromRestriction = m_xmlViewModel.BaseFolderViewModel.FromBasePath};
            FileDialogCommand = new DelegateCommand(FileDialogExecute);
         }
 

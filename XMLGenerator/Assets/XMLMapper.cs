@@ -32,7 +32,7 @@ namespace XMLGenerator.Assets
                 var exportVMCOL = new ObservableCollection<ExportViewModel>();
                 
                 var startfile = new StartFile {FromPath = dis.Element("StartFile").Attribute("From").Value, ToPath = dis.Element("StartFile").Attribute("To").Value };
-                disciplineVM.StartFileViewModel = new StartFileViewModel {StartFile = startfile};
+                disciplineVM.StartFileViewModel = new StartFileViewModel(xmlViewModel) {StartFile = startfile};
                 var exps = dis.Elements("Export");
                 foreach (var exp in exps)
                 {
