@@ -16,7 +16,7 @@ namespace XMLGenerator.ViewModel
         public IFCViewModel(XmlViewModel xmlViewModel)
         {
             m_xmlViewModel = xmlViewModel;
-            IFC = new IFC() {From = xmlViewModel.BaseFolderViewModel.FromBasePath };
+            IFC = new IFC() {FromRestriction = xmlViewModel.BaseFolderViewModel.FromBasePath };
         }
 
         public IFC IFC { get { return m_ifc; } set { m_ifc = value; OnPropertyChanged("IFC"); } }

@@ -24,7 +24,7 @@ namespace XMLGenerator.ViewModel
         {
             m_xmlViewModel = xmlViewModel;
            AddExportCommand = new DelegateCommand(AddFolderExecute);
-           StartFileViewModel = new StartFileViewModel();
+           StartFileViewModel = new StartFileViewModel(xmlViewModel);
            ExportViewModels = new ObservableCollection<ExportViewModel> {new ExportViewModel(m_xmlViewModel)};
            RemoveDisciplineCommand = new DelegateCommand(RemoveDisciplineExecute);
            IsVisible = true;
