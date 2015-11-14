@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using XMLGenerator.Assets;
 
 namespace XMLGenerator.ViewModel
 {
@@ -35,29 +36,10 @@ namespace XMLGenerator.ViewModel
             FolderBrowserDialog p = new FolderBrowserDialog();
             p.ShowDialog();
             FromBasePath = p.SelectedPath;
-            SetFromBaseFolders();
+            BasePathHelper.SetFromBaseFolders(m_xmlViewModel, FromBasePath);
         }
 
-        private void SetFromBaseFolders()
-        {
-            m_xmlViewModel.IFCViewModel.IFC.FromRestriction = FromBasePath;
-           
-            foreach(var file in m_xmlViewModel.FileViewModel.Files){
-                file.FromRestriction = FromBasePath;
-            }
-            foreach(var dicsipline in m_xmlViewModel.DisciplineViewModels){
-
-                dicsipline.StartFileViewModel.StartFile.FromRestriction = FromBasePath;
-
-                foreach(var export in dicsipline.ExportViewModels){
-                    
-                    foreach (var folder in export.FolderViewModel.Folders)
-                    {
-                        folder.FromRestriction = FromBasePath;
-                    }
-                }
-            }
-        }
+        
 
         private void FileDialogToExecute()
         {

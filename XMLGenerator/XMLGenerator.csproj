@@ -94,6 +94,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Assets\BasePathHelper.cs" />
     <Compile Include="Assets\CreateToField.cs" />
     <Compile Include="Assets\PathValidator.cs" />
     <Compile Include="Assets\XMLMapper.cs" />

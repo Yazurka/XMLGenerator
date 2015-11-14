@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using XMLGenerator.Model;
 using System.Windows.Forms;
+using XMLGenerator.Assets;
 
 namespace XMLGenerator.ViewModel
 {
@@ -21,11 +22,13 @@ namespace XMLGenerator.ViewModel
            FileDialogCommand = new DelegateCommand(FileDialogExecute);
         }
 
-        private void FileDialogExecute()
+        private async void FileDialogExecute()
         {
-            FolderBrowserDialog p = new FolderBrowserDialog();
-            p.ShowDialog();
-            StartFile.FromPath = p.SelectedPath;
+            var x = await PathValidator.SelectFilePath(StartFile.FromRestriction);
+            if (x != "")
+            {
+                StartFile.FromPath = x;
+            }
         }
 
         public ICommand FileDialogCommand { get { return m_fileDialogCommand; } set { m_fileDialogCommand = value; OnPropertyChanged("FileDialogCommand"); } }

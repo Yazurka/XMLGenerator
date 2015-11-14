@@ -27,27 +27,27 @@ namespace XMLGenerator.ViewModel
 
         public ObservableCollection<ViewModelBase> CurrentViewModel { get { return m_viewModelBase; } set { m_viewModelBase = value; OnPropertyChanged("CurrentViewModel"); } }
 
-        public int SelectedTabIndex 
-        { 
-            get 
-            { 
-                return m_selectedTabIndex; 
-            } 
+        public int SelectedTabIndex
+        {
+            get
+            {
+                return m_selectedTabIndex;
+            }
             set {
 
                 m_selectedTabIndex = value;
                 OnPropertyChanged("SelectedTabIndex");
 
                 if (m_selectedTabIndex != -1)
-                {                    
-                    SaveFolderPath = m_basePath;                    
+                {
+                    SaveFolderPath = m_basePath;
                 }
-            }        
+            }
         }
 
         public ICommand SaveFolderCommand { get; set; }
 
-        
+
         public ICommand OpenFolderCommand
         {
             get { return m_openFolderCommand; }
@@ -119,7 +119,7 @@ namespace XMLGenerator.ViewModel
             FileExplorerCommand = new DelegateCommand(OpenExplorerExecute);
             SaveFolderCommand = new DelegateCommand(SetSaveFolderPath);
             CurrentViewModel = InitialSetupXmlViewModel();
-           
+
             m_basePath = ConfigurationManager.AppSettings["SavePath"];
             NewProjectCommand = new DelegateCommand(AddNewProject);
             DeleteProjectCommand = new DelegateCommand(DeleteProjectExecute);
@@ -135,7 +135,7 @@ namespace XMLGenerator.ViewModel
 
         }
 
-        private async void DeleteProjectExecute ()
+        private async void DeleteProjectExecute()
         {
             var window = Application.Current.MainWindow as MetroWindow;
             MetroDialogSettings Settings = new MetroDialogSettings();
@@ -157,7 +157,7 @@ namespace XMLGenerator.ViewModel
         {
             System.Windows.Forms.FolderBrowserDialog p = new System.Windows.Forms.FolderBrowserDialog();
             p.ShowDialog();
-            if(string.IsNullOrEmpty(p.SelectedPath)){
+            if (string.IsNullOrEmpty(p.SelectedPath)) {
                 return;
             }
             SaveFolderPath = p.SelectedPath;
@@ -165,7 +165,7 @@ namespace XMLGenerator.ViewModel
 
         private void AddNewProject()
         {
-            var newProject = new XmlViewModel{ProjectName = "New Project"};
+            var newProject = new XmlViewModel { ProjectName = "New Project" };
 
             CurrentViewModel.Add(newProject);
 
@@ -177,7 +177,8 @@ namespace XMLGenerator.ViewModel
 
             fileDialog.ShowDialog();
             LoadFromXML(fileDialog.FileName);
-
+            var xmlViewModel = CurrentViewModel[SelectedTabIndex] as XmlViewModel;
+            BasePathHelper.SetFromBaseFolders(xmlViewModel, xmlViewModel.BaseFolderViewModel.FromBasePath);
         }
 
         private bool IsSelectedProjectEmpty(XmlViewModel p)
