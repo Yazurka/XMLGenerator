@@ -8,6 +8,7 @@ using MahApps.Metro.Controls.Dialogs;
 using System.Windows;
 using System.Collections.ObjectModel;
 using MahApps.Metro.Controls;
+using System.Collections.Generic;
 
 namespace XMLGenerator.ViewModel
 {
@@ -20,6 +21,7 @@ namespace XMLGenerator.ViewModel
         private ICommand m_fileExplorerCommand;
         private ICommand m_deleteProjectCommand;
         private ICommand m_openFolderCommand;
+        private ICommand m_generateLocalFoldersCommand;
         private string m_savePath;
         private string m_basePath;
         private int m_selectedTabIndex;
@@ -33,7 +35,8 @@ namespace XMLGenerator.ViewModel
             {
                 return m_selectedTabIndex;
             }
-            set {
+            set
+            {
 
                 m_selectedTabIndex = value;
                 OnPropertyChanged("SelectedTabIndex");
@@ -46,6 +49,16 @@ namespace XMLGenerator.ViewModel
         }
 
         public ICommand SaveFolderCommand { get; set; }
+
+        public ICommand GenerateLocalFoldersCommand
+        {
+            get { return m_generateLocalFoldersCommand; }
+            set
+            {
+                m_generateLocalFoldersCommand = value;
+                OnPropertyChanged("GenerateLocalFoldersCommand");
+            }
+        }
 
 
         public ICommand OpenFolderCommand
@@ -114,6 +127,7 @@ namespace XMLGenerator.ViewModel
 
         public MainViewModel()
         {
+            GenerateLocalFoldersCommand = new DelegateCommand(GenerateLocalFolders);
             m_openSettings = new DelegateCommand(flip);
             m_generateXmlCommand = new DelegateCommand(GenerateXmlExecute);
             FileExplorerCommand = new DelegateCommand(OpenExplorerExecute);
@@ -134,6 +148,36 @@ namespace XMLGenerator.ViewModel
             System.Diagnostics.Process.Start("explorer.exe", argument);
 
         }
+
+        private async void GenerateLocalFolders()
+        {
+            XmlViewModel xmlViewModel = CurrentViewModel[SelectedTabIndex] as XmlViewModel;
+            var IfcList = new List<string>();
+            foreach (var Discipline in xmlViewModel.DisciplineViewModels)
+            {
+                foreach (var Export in Discipline.ExportViewModels)
+                {
+                    foreach (var Folder in Export.FolderViewModel.Folders)
+                    {
+                        Directory.CreateDirectory(Folder.To);
+                        if (IfcList.Find(x => x == Folder.IFC) == null)
+                        {
+                            IfcList.Add(Folder.IFC);
+                        }
+                    }
+                }
+            }
+            Directory.CreateDirectory(Path.GetDirectoryName(xmlViewModel.IFCViewModel.IFC.To));
+
+            foreach (var ifc in IfcList)
+            {
+                var file = new FileInfo(xmlViewModel.IFCViewModel.IFC.From);
+                file.CopyTo(Path.GetDirectoryName(xmlViewModel.IFCViewModel.IFC.To) + "\\" + ifc + ".ifc");
+            }
+            var window = Application.Current.MainWindow as MetroWindow;
+            await window.ShowMessageAsync("Directory created", "Export directory has been created at: \n" + xmlViewModel.BaseFolderViewModel.ToBasePath);
+        }
+
 
         private async void DeleteProjectExecute()
         {
@@ -157,7 +201,8 @@ namespace XMLGenerator.ViewModel
         {
             System.Windows.Forms.FolderBrowserDialog p = new System.Windows.Forms.FolderBrowserDialog();
             p.ShowDialog();
-            if (string.IsNullOrEmpty(p.SelectedPath)) {
+            if (string.IsNullOrEmpty(p.SelectedPath))
+            {
                 return;
             }
             SaveFolderPath = p.SelectedPath;
@@ -165,7 +210,7 @@ namespace XMLGenerator.ViewModel
 
         private void AddNewProject()
         {
-            var newProject = new XmlViewModel { ProjectName = "New Project" }; 
+            var newProject = new XmlViewModel { ProjectName = "New Project" };
 
             CurrentViewModel.Add(newProject);
 
@@ -291,7 +336,7 @@ namespace XMLGenerator.ViewModel
                     // Project has data
                     var window = Application.Current.MainWindow as MetroWindow;
                     MetroDialogSettings Settings = new MetroDialogSettings();
-                    Settings.AffirmativeButtonText = "Overwrite";
+                    Settings.AffirmativeButtonText = "Discard changes";
                     Settings.NegativeButtonText = "New page";
                     Settings.FirstAuxiliaryButtonText = "Abort";
                     var x = await window.ShowMessageAsync("Oops!", "This project already contains data, what do you want to do?", MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, Settings);
@@ -335,15 +380,15 @@ namespace XMLGenerator.ViewModel
         }
         private ObservableCollection<ViewModelBase> InitialSetupXmlViewModel()
         {
-            
+
             var xmlVM = new XmlViewModel();
             xmlVM.ProjectName = "Project1";
-           // var xmlVM2 = new XmlViewModel();
-           // xmlVM2.ProjectName = "Project2";
+            // var xmlVM2 = new XmlViewModel();
+            // xmlVM2.ProjectName = "Project2";
 
             ObservableCollection<ViewModelBase> xmlVms = new ObservableCollection<ViewModelBase>();
             xmlVms.Add(xmlVM);
-           // xmlVms.Add(xmlVM2);
+            // xmlVms.Add(xmlVM2);
             return xmlVms;
         }
 
@@ -384,7 +429,7 @@ namespace XMLGenerator.ViewModel
                 await window.ShowMessageAsync("Invalid data", "Base folder's fields To and From can not be empty, please enter a value");
                 return;
             }
-            
+
 
             if (!Directory.Exists(Path.GetDirectoryName(SaveFolderPath)))
             {

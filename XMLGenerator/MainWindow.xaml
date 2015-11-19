@@ -10,6 +10,7 @@
 
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
+            <Button Content="Generate local folders" Command="{Binding GenerateLocalFoldersCommand}" />
             <Button Content="new project" Command="{Binding NewProjectCommand}" />
             <Button Content="unload project" Command="{Binding DeleteProjectCommand}" />
             <Button Content="export" Command="{Binding GenerateXmlCommand}" />
