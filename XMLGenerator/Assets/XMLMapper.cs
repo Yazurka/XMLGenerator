@@ -23,6 +23,11 @@ namespace XMLGenerator.Assets
             var XMLvm = new XmlViewModel();
             XElement xdoc = XElement.Load(path);
             XMLvm.ProjectName = xdoc.Attribute("Name").Value;
+
+            var basef = xdoc.Element("BaseFolder");
+            var BaseVm = new BaseFolderViewModel(XMLvm) { FromBasePath = basef.Attribute("From").Value, ToBasePath = basef.Attribute("To").Value };
+            XMLvm.BaseFolderViewModel = BaseVm;
+
             var Dicsiplines = xdoc.Elements("Discipline");
             var disciplinecol = new ObservableCollection<DisciplineViewModel>();
             foreach (var dis in Dicsiplines)
@@ -32,7 +37,7 @@ namespace XMLGenerator.Assets
                 var exportVMCOL = new ObservableCollection<ExportViewModel>();
                 
                 var startfile = new StartFile {FromPath = dis.Element("StartFile").Attribute("From").Value, ToPath = dis.Element("StartFile").Attribute("To").Value };
-                disciplineVM.StartFileViewModel = new StartFileViewModel(xmlViewModel) {StartFile = startfile};
+                disciplineVM.StartFileViewModel = new StartFileViewModel(XMLvm) {StartFile = startfile};
                 var exps = dis.Elements("Export");
                 foreach (var exp in exps)
                 {
@@ -70,20 +75,16 @@ namespace XMLGenerator.Assets
                 var f = new File {From = file.Attribute("From").Value,To=file.Attribute("To").Value};
                 filecol.Add(f);
             }
-            var fileVM = new FileViewModel(xmlViewModel);
+
+            var fileVM = new FileViewModel(XMLvm);
             fileVM.Files = filecol;
 
             XMLvm.FileViewModel = fileVM;
             XMLvm.DisciplineViewModels = disciplinecol;
 
-            var basef = xdoc.Element("BaseFolder");
-
-            var BaseVm = new BaseFolderViewModel(xmlViewModel) {FromBasePath = basef.Attribute("From").Value,ToBasePath = basef.Attribute("To").Value};
-            XMLvm.BaseFolderViewModel = BaseVm;
-
             var ifc = xdoc.Element("IFC");
 
-            var ifcvm = new IFCViewModel(xmlViewModel)
+            var ifcvm = new IFCViewModel(XMLvm)
             {
                 IFC = new IFC { Export = ifc.Attribute("Export").Value, To = ifc.Attribute("To").Value, From = ifc.Attribute("From").Value }
             };

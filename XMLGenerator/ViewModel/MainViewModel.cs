@@ -165,7 +165,7 @@ namespace XMLGenerator.ViewModel
 
         private void AddNewProject()
         {
-            var newProject = new XmlViewModel { ProjectName = "New Project" };
+            var newProject = new XmlViewModel { ProjectName = "New Project" }; 
 
             CurrentViewModel.Add(newProject);
 
@@ -177,8 +177,6 @@ namespace XMLGenerator.ViewModel
 
             fileDialog.ShowDialog();
             LoadFromXML(fileDialog.FileName);
-            var xmlViewModel = CurrentViewModel[SelectedTabIndex] as XmlViewModel;
-            BasePathHelper.SetFromBaseFolders(xmlViewModel, xmlViewModel.BaseFolderViewModel.FromBasePath);
         }
 
         private bool IsSelectedProjectEmpty(XmlViewModel p)
@@ -272,44 +270,52 @@ namespace XMLGenerator.ViewModel
             }
             var TabIndex = SelectedTabIndex;
             var mapper = new XMLMapper();
-            var p = mapper.MapXMLToXmlViewModel(path,CurrentViewModel[SelectedTabIndex] as XmlViewModel);
 
             if (CurrentViewModel.Count == 0)
             {
                 CurrentViewModel.Add(new XmlViewModel());
                 SelectedTabIndex = 0;
                 TabIndex = 0;
-            }
-
-            if (IsSelectedProjectEmpty(CurrentViewModel[SelectedTabIndex] as XmlViewModel))
-            {
-                CurrentViewModel[SelectedTabIndex] = p;
+                CurrentViewModel[TabIndex] = mapper.MapXMLToXmlViewModel(path, CurrentViewModel[TabIndex] as XmlViewModel);
             }
             else
             {
-                // Project has data
-                var window = Application.Current.MainWindow as MetroWindow;
-                MetroDialogSettings Settings = new MetroDialogSettings();
-                Settings.AffirmativeButtonText = "Overwrite";
-                Settings.NegativeButtonText = "New page";
-                Settings.FirstAuxiliaryButtonText = "Abort";
-                var x = await window.ShowMessageAsync("Oops!", "This project already contains data, what do you want to do?", MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, Settings);
-                switch (x)
+                var p = mapper.MapXMLToXmlViewModel(path, CurrentViewModel[TabIndex] as XmlViewModel);
+
+                if (IsSelectedProjectEmpty(CurrentViewModel[TabIndex] as XmlViewModel))
                 {
-                    case MessageDialogResult.Negative:
-                        // Ny fane
-                        CurrentViewModel.Add(p);
-                        TabIndex = CurrentViewModel.Count - 1;
-                        break;
-                    case MessageDialogResult.Affirmative:
-                        // Overskrivs
-                        CurrentViewModel[SelectedTabIndex] = p;
-                        break;
-                    case MessageDialogResult.FirstAuxiliary:
-                        return;
+                    CurrentViewModel[TabIndex] = p;
+                }
+                else
+                {
+                    // Project has data
+                    var window = Application.Current.MainWindow as MetroWindow;
+                    MetroDialogSettings Settings = new MetroDialogSettings();
+                    Settings.AffirmativeButtonText = "Overwrite";
+                    Settings.NegativeButtonText = "New page";
+                    Settings.FirstAuxiliaryButtonText = "Abort";
+                    var x = await window.ShowMessageAsync("Oops!", "This project already contains data, what do you want to do?", MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, Settings);
+                    switch (x)
+                    {
+                        case MessageDialogResult.Negative:
+                            // Ny fane
+                            CurrentViewModel.Add(p);
+                            TabIndex = CurrentViewModel.Count - 1;
+                            break;
+                        case MessageDialogResult.Affirmative:
+                            // Overskrivs
+                            CurrentViewModel[TabIndex] = p;
+                            break;
+                        case MessageDialogResult.FirstAuxiliary:
+                            return;
+                    }
                 }
             }
 
+
+            var xmlViewModel = CurrentViewModel[TabIndex] as XmlViewModel;
+            BasePathHelper.SetFromBaseFolders(xmlViewModel, xmlViewModel.BaseFolderViewModel.FromBasePath);
+            CurrentViewModel[TabIndex] = xmlViewModel;
             SaveFolderPath = Path.GetDirectoryName(path);
             IsSettingsOpen = false;
             SelectedTabIndex = TabIndex;

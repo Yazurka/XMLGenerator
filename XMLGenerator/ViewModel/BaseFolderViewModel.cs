@@ -28,7 +28,11 @@ namespace XMLGenerator.ViewModel
         public ICommand FileDialogToCommand { get { return m_fileDialogToCommand; } set { m_fileDialogToCommand = value; OnPropertyChanged("FileDialogToCommand"); } }
         public ICommand FileDialogFromCommand { get { return m_fileDialogFromCommand; } set { m_fileDialogFromCommand = value; OnPropertyChanged("FileDialogFromCommand"); } }
 
-        public string FromBasePath { get { return m_fromBasePath; } set { m_fromBasePath = value; OnPropertyChanged("FromBasePath"); } }
+        public string FromBasePath {
+            get { return m_fromBasePath; }
+            set { m_fromBasePath = value; OnPropertyChanged("FromBasePath");
+            }
+        }
         public string ToBasePath { get { return m_toBasePath; } set { m_toBasePath = value; OnPropertyChanged("ToBasePath"); } }
 
         private void FileDialogFromEcecute()
