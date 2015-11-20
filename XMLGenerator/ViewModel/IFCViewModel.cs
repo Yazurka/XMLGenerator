@@ -19,6 +19,12 @@ namespace XMLGenerator.ViewModel
             IFC = new IFC() {FromRestriction = xmlViewModel.BaseFolderViewModel.FromBasePath };
         }
 
+        public bool BasePathValid
+        {
+            get { return m_xmlViewModel.BasePathValid; }
+            set { OnPropertyChanged("BasePathValid"); }
+        }
+
         public IFC IFC { get { return m_ifc; } set { m_ifc = value; OnPropertyChanged("IFC"); } }
     }
 }

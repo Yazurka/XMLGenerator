@@ -16,6 +16,8 @@ namespace XMLGenerator.ViewModel
         private ICommand m_addDiciplineCommand;
         private ICommand m_renameProjectCommand;
         private string m_projectName;
+        public string SavePath;
+        private bool m_basePathValid;
        
         public XmlViewModel()
         {
@@ -27,6 +29,15 @@ namespace XMLGenerator.ViewModel
             AddDiciplineCommand = new DelegateCommand(AddDiciplineExecute);
             RenameProjectCommand = new DelegateCommand(RenameProject);
             
+        }
+
+        public bool BasePathValid
+        {
+            get { return m_basePathValid; }
+            set { m_basePathValid = value;
+                FileViewModel.BasePathValid = value;
+                IFCViewModel.BasePathValid = value;
+                OnPropertyChanged("BasePathValid"); }
         }
 
         private async void RenameProject()

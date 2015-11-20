@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Expander Header="File" Foreground="DarkSlateGray" FontSize="15" >
     <StackPanel>
-       <ItemsControl ItemsSource="{Binding Files}">
+            <ItemsControl ItemsSource="{Binding Files}" IsEnabled="{Binding BasePathValid}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                         <Grid Visibility="{Binding IsVisible, Converter={StaticResource boolToVisConverter}}">

@@ -25,14 +25,14 @@ namespace XMLGenerator.Assets
         public XDocument GetXML()
         {
 
-            XDocument xml = new XDocument(new XDeclaration("1.0", "ISO-8859-1", "yes"),
+            XDocument xml = new XDocument(new XDeclaration("1.1", "ISO-8859-1", "yes"),
                                           new XElement("Project", new XAttribute("Name",m_xmlViewModel.ProjectName), new XAttribute("StructureVersion", "1.0"), from discipline in m_disciplineViewModels
                                                   select new XElement("Discipline", new XAttribute("Value",discipline.Value), from export in discipline.ExportViewModels
                                                     select new XElement("Export", new XAttribute("Value", export.Value),
+                                                                                          new XAttribute("IFC", export.IFC),
                                                     from folder in export.FolderViewModel.Folders
                                                             select new XElement("Folder", new XAttribute("From", folder.From), 
-                                                                                          new XAttribute("To", folder.To), 
-                                                                                          new XAttribute("IFC", folder.IFC))
+                                                                                          new XAttribute("To", folder.To))
                                                   ),
                                                   new XElement("StartFile", new XAttribute("From", discipline.StartFileViewModel.StartFile.FromPath), new XAttribute("To", discipline.StartFileViewModel.StartFile.ToPath)
                                                   )),

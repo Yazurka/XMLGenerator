@@ -51,16 +51,16 @@ namespace XMLGenerator.Assets
                        
                         var From = folder.Attribute("From").Value;
                         var To = folder.Attribute("To").Value;
-                        var IFC = folder.Attribute("IFC").Value;
 
-                        var f= new Folder {From = From,To=To,IFC  = IFC};
+                        var f= new Folder {From = From,To=To};
                         foldersCol.Add(f);
                         fVM.Folders = foldersCol;
-                    }
-                    
+                    }                    
+
                     fVM.Folders = foldersCol;
                     expVM.FolderViewModel = fVM;
                     expVM.Value = exp.Attribute("Value").Value;
+                    expVM.IFC = exp.Attribute("IFC").Value;
                     exportVMCOL.Add(expVM);
                 }
                 disciplineVM.ExportViewModels = exportVMCOL;
@@ -89,6 +89,9 @@ namespace XMLGenerator.Assets
                 IFC = new IFC { Export = ifc.Attribute("Export").Value, To = ifc.Attribute("To").Value, From = ifc.Attribute("From").Value }
             };
             XMLvm.IFCViewModel = ifcvm;
+
+            XMLvm.SavePath = path;
+                
             return XMLvm;
         }
     }

@@ -18,7 +18,6 @@
                        <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
-                           <ColumnDefinition Width="150"/>
                                 <ColumnDefinition Width="Auto"/>
 
                             </Grid.ColumnDefinitions>
@@ -34,7 +33,6 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                            <TextBox Grid.Column="2" Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="IFC" Text="{Binding IFC, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
                             <Button ToolTip="Remove" Background="Transparent" Width="15" Height="15" Margin="5,0,0,0" Grid.Column="3" Command="{Binding RemoveCommand}" >
                                 <Button.Template>
                                     <ControlTemplate>

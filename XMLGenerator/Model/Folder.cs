@@ -17,7 +17,6 @@ namespace XMLGenerator.Model
     public class Folder: ViewModelBase
     {
         private string m_from;
-        private string m_ifc;
         private bool m_isVisible;
         private ICommand m_removeCommand;
 
@@ -40,14 +39,6 @@ namespace XMLGenerator.Model
             }
         }
 
-        private void FileDialogIFCExecute()
-        {
-            FolderBrowserDialog p = new FolderBrowserDialog();
-            p.ShowDialog();
-            IFC = p.SelectedPath;
-            
-        }
-       
         private void RemoveExecute()
         {
             IsVisible = false;
@@ -62,6 +53,5 @@ namespace XMLGenerator.Model
 
         public string From { get { return m_from; } set { m_from = value; OnPropertyChanged("From"); } }
         public string To { get; set; }
-        public string IFC { get { return m_ifc; } set { m_ifc = value; OnPropertyChanged("IFC"); } }
     }
 }

@@ -16,6 +16,7 @@ namespace XMLGenerator.ViewModel
         private string m_value;
         private ICommand m_removeExportCommand;
         private bool m_isVisible;
+        private string m_IFC;
         private XmlViewModel m_xmlViewModel;
         public ExportViewModel(XmlViewModel xmlViewModel)
         {
@@ -35,5 +36,6 @@ namespace XMLGenerator.ViewModel
         public FolderViewModel FolderViewModel { get { return m_folderViewModel; } set { m_folderViewModel = value; OnPropertyChanged("FolderViewModel"); } }
         
         public string Value { get { return m_value; } set { m_value = value; OnPropertyChanged("Value"); } }
+        public string IFC { get { return m_IFC; } set { m_IFC = value; OnPropertyChanged("IFC"); } }
     }
 }

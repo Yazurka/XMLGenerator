@@ -22,8 +22,6 @@ namespace XMLGenerator.ViewModel
         private ICommand m_deleteProjectCommand;
         private ICommand m_openFolderCommand;
         private ICommand m_generateLocalFoldersCommand;
-        private string m_savePath;
-        private string m_basePath;
         private int m_selectedTabIndex;
         private ObservableCollection<ViewModelBase> m_viewModelBase;
 
@@ -37,14 +35,12 @@ namespace XMLGenerator.ViewModel
             }
             set
             {
-
+                if (value == -1 && CurrentViewModel.Count > 0)
+                {
+                    return;
+                }
                 m_selectedTabIndex = value;
                 OnPropertyChanged("SelectedTabIndex");
-
-                if (m_selectedTabIndex != -1)
-                {
-                    SaveFolderPath = m_basePath;
-                }
             }
         }
 
@@ -99,16 +95,6 @@ namespace XMLGenerator.ViewModel
                 OnPropertyChanged("DeleteProjectCommand");
             }
         }
-        public string SaveFolderPath
-        {
-            get { return m_savePath; }
-            set
-            {
-                m_savePath = value;
-                OnPropertyChanged("SaveFolderPath");
-            }
-        }
-
 
         public bool IsSettingsOpen
         {
@@ -131,27 +117,30 @@ namespace XMLGenerator.ViewModel
             m_openSettings = new DelegateCommand(flip);
             m_generateXmlCommand = new DelegateCommand(GenerateXmlExecute);
             FileExplorerCommand = new DelegateCommand(OpenExplorerExecute);
-            SaveFolderCommand = new DelegateCommand(SetSaveFolderPath);
+            SaveFolderCommand = new DelegateCommand(SaveAsPath);
             CurrentViewModel = InitialSetupXmlViewModel();
-
-            m_basePath = ConfigurationManager.AppSettings["SavePath"];
             NewProjectCommand = new DelegateCommand(AddNewProject);
             DeleteProjectCommand = new DelegateCommand(DeleteProjectExecute);
-            OpenFolderCommand = new DelegateCommand(OpenFolderExecute);
             SelectedTabIndex = 0;
         }
 
-        private void OpenFolderExecute()
-        {
-            string argument = @"/select, " + SaveFolderPath;
-
-            System.Diagnostics.Process.Start("explorer.exe", argument);
-
-        }
 
         private async void GenerateLocalFolders()
         {
             XmlViewModel xmlViewModel = CurrentViewModel[SelectedTabIndex] as XmlViewModel;
+
+            var window = Application.Current.MainWindow as MetroWindow;
+            if (xmlViewModel.BaseFolderViewModel.BasePathChanged)
+            {
+                await window.ShowMessageAsync("Warning" ,"You need to save your changes before you can generate local folders.");
+                return;
+            }
+            if (string.IsNullOrEmpty(xmlViewModel.BaseFolderViewModel.FromBasePath))
+            {
+                await window.ShowMessageAsync("Warning", "Unable to create directory, base folder from field is empty.");
+                return;
+            }
+
             var IfcList = new List<string>();
             foreach (var Discipline in xmlViewModel.DisciplineViewModels)
             {
@@ -159,22 +148,30 @@ namespace XMLGenerator.ViewModel
                 {
                     foreach (var Folder in Export.FolderViewModel.Folders)
                     {
-                        Directory.CreateDirectory(Folder.To);
-                        if (IfcList.Find(x => x == Folder.IFC) == null)
+                        if (Folder.To == null)
                         {
-                            IfcList.Add(Folder.IFC);
+                            break;
                         }
+                        Directory.CreateDirectory(Folder.To);
+                    }
+                    if (IfcList.Find(x => x == Export.IFC) == null)
+                    {
+                        IfcList.Add(Export.IFC);
                     }
                 }
             }
-            Directory.CreateDirectory(Path.GetDirectoryName(xmlViewModel.IFCViewModel.IFC.To));
+
+            if (xmlViewModel.IFCViewModel.IFC.To != null)
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(xmlViewModel.IFCViewModel.IFC.To));
+            }
+
 
             foreach (var ifc in IfcList)
             {
                 var file = new FileInfo(xmlViewModel.IFCViewModel.IFC.From);
                 file.CopyTo(Path.GetDirectoryName(xmlViewModel.IFCViewModel.IFC.To) + "\\" + ifc + ".ifc");
             }
-            var window = Application.Current.MainWindow as MetroWindow;
             await window.ShowMessageAsync("Directory created", "Export directory has been created at: \n" + xmlViewModel.BaseFolderViewModel.ToBasePath);
         }
 
@@ -185,7 +182,7 @@ namespace XMLGenerator.ViewModel
             MetroDialogSettings Settings = new MetroDialogSettings();
             Settings.AffirmativeButtonText = "Yes";
             Settings.NegativeButtonText = "No";
-            var x = await window.ShowMessageAsync("Unload", "Are you sure you want to unload the project?", MessageDialogStyle.AffirmativeAndNegative, Settings);
+            var x = await window.ShowMessageAsync("Close", "Are you sure you want to close the project?\nWarning: Unsaved data will be lost.", MessageDialogStyle.AffirmativeAndNegative, Settings);
 
             switch (x)
             {
@@ -193,19 +190,36 @@ namespace XMLGenerator.ViewModel
                     return;
                 case MessageDialogResult.Affirmative:
                     CurrentViewModel.RemoveAt(SelectedTabIndex);
+                    SelectedTabIndex = SelectedTabIndex - 1;
                     break;
             }
         }
 
-        private void SetSaveFolderPath()
+        private async void SaveAsPath()
         {
-            System.Windows.Forms.FolderBrowserDialog p = new System.Windows.Forms.FolderBrowserDialog();
-            p.ShowDialog();
-            if (string.IsNullOrEmpty(p.SelectedPath))
+            var c = CurrentViewModel[SelectedTabIndex] as XmlViewModel;
+
+            var canMakeXML = CanGenerate(c);
+
+            if (!canMakeXML)
+            {
+                var window = Application.Current.MainWindow as MetroWindow;
+                await window.ShowMessageAsync("Invalid data", "Base folder's fields To and From can not be empty, please enter a value");
+                return;
+            }
+
+            SaveFileDialog saveDialog = new SaveFileDialog();
+
+            saveDialog.ShowDialog();
+
+            if (saveDialog.FileName == null)
             {
                 return;
             }
-            SaveFolderPath = p.SelectedPath;
+
+            c.SavePath = saveDialog.FileName;
+            CurrentViewModel[SelectedTabIndex] = c;
+            GenerateXmlExecute();
         }
 
         private void AddNewProject()
@@ -284,14 +298,14 @@ namespace XMLGenerator.ViewModel
                         EmptyBool = false;
                     }
 
+                    if (Export.IFC != string.Empty && Export.IFC != null)
+                    {
+                        EmptyBool = false;
+                    }
+
                     foreach (var Folder in Export.FolderViewModel.Folders)
                     {
                         if (Folder.From != string.Empty && Folder.From != null)
-                        {
-                            EmptyBool = false;
-                        }
-
-                        if (Folder.IFC != string.Empty && Folder.IFC != null)
                         {
                             EmptyBool = false;
                         }
@@ -336,8 +350,8 @@ namespace XMLGenerator.ViewModel
                     // Project has data
                     var window = Application.Current.MainWindow as MetroWindow;
                     MetroDialogSettings Settings = new MetroDialogSettings();
-                    Settings.AffirmativeButtonText = "Discard changes";
-                    Settings.NegativeButtonText = "New page";
+                    Settings.AffirmativeButtonText = "Open in this tab";
+                    Settings.NegativeButtonText = "New tab";
                     Settings.FirstAuxiliaryButtonText = "Abort";
                     var x = await window.ShowMessageAsync("Oops!", "This project already contains data, what do you want to do?", MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, Settings);
                     switch (x)
@@ -354,14 +368,15 @@ namespace XMLGenerator.ViewModel
                         case MessageDialogResult.FirstAuxiliary:
                             return;
                     }
+                    
                 }
+                SelectedTabIndex = TabIndex;
             }
 
 
             var xmlViewModel = CurrentViewModel[TabIndex] as XmlViewModel;
             BasePathHelper.SetFromBaseFolders(xmlViewModel, xmlViewModel.BaseFolderViewModel.FromBasePath);
             CurrentViewModel[TabIndex] = xmlViewModel;
-            SaveFolderPath = Path.GetDirectoryName(path);
             IsSettingsOpen = false;
             SelectedTabIndex = TabIndex;
 
@@ -380,15 +395,11 @@ namespace XMLGenerator.ViewModel
         }
         private ObservableCollection<ViewModelBase> InitialSetupXmlViewModel()
         {
-
             var xmlVM = new XmlViewModel();
             xmlVM.ProjectName = "Project1";
-            // var xmlVM2 = new XmlViewModel();
-            // xmlVM2.ProjectName = "Project2";
 
             ObservableCollection<ViewModelBase> xmlVms = new ObservableCollection<ViewModelBase>();
             xmlVms.Add(xmlVM);
-            // xmlVms.Add(xmlVM2);
             return xmlVms;
         }
 
@@ -398,29 +409,32 @@ namespace XMLGenerator.ViewModel
                    string.IsNullOrEmpty(xmlViewModel.BaseFolderViewModel.FromBasePath));
         }
 
-        private void CreateNewDirectory()
+        private void CreateNewDirectory(string path)
         {
-            var SaveDir = Path.GetDirectoryName(SaveFolderPath);
+            var SaveDir = Path.GetDirectoryName(path);
             Directory.CreateDirectory(SaveDir);
         }
 
         private async void SaveXMLFile()
         {
-
             var c = CurrentViewModel[SelectedTabIndex] as XmlViewModel;
+
             var CTF = new CreateToField();
             c = CTF.ToFieldGenerator(c);
             var xmlo = new XMLObject(c);
             var res = xmlo.GetXML();
-            var SavePath = SaveFolderPath + "\\" + c.ProjectName + ".xml";
-            res.Save(SavePath);
+            res.Save(c.SavePath);
             var window = Application.Current.MainWindow as MetroWindow;
-            await window.ShowMessageAsync("File saved", "Your file has been saved to: \n" + SavePath);
+            await window.ShowMessageAsync("File saved", "Your file has been saved to: \n" + c.SavePath);
+
+            c.BaseFolderViewModel.BasePathChanged = false;
         }
 
         private async void GenerateXmlExecute()
         {
+
             var c = CurrentViewModel[SelectedTabIndex] as XmlViewModel;
+
             var canMakeXML = CanGenerate(c);
 
             if (!canMakeXML)
@@ -430,8 +444,19 @@ namespace XMLGenerator.ViewModel
                 return;
             }
 
+            if (c.SavePath == null)
+            {
+                SaveAsPath();
+                return;
+            }
 
-            if (!Directory.Exists(Path.GetDirectoryName(SaveFolderPath)))
+            if (string.IsNullOrEmpty(c.SavePath))
+            {
+                return;
+            }
+
+
+            if (!Directory.Exists(c.SavePath))
             {
                 var window = Application.Current.MainWindow as MetroWindow;
                 var x = await window.ShowMessageAsync("Directory not found!", "The directory you specified does not exist, do you want to create it?", MessageDialogStyle.AffirmativeAndNegative);
@@ -441,7 +466,7 @@ namespace XMLGenerator.ViewModel
                     case MessageDialogResult.Negative:
                         return;
                     case MessageDialogResult.Affirmative:
-                        CreateNewDirectory();
+                        CreateNewDirectory(c.SavePath);
                         SaveXMLFile();
                         break;
                 }

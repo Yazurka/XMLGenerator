@@ -25,10 +25,6 @@ namespace XMLGenerator.Assets
                 {
                     foreach (var Folder in Export.FolderViewModel.Folders)
                     {
-                        if (string.IsNullOrEmpty(Folder.IFC))
-                        {
-                            Folder.IFC = string.Empty;
-                        }
                         if (string.IsNullOrEmpty(Folder.From))
                         {
                             Folder.From = string.Empty;
@@ -41,8 +37,12 @@ namespace XMLGenerator.Assets
                     foreach (var folder in FoldersToRemove)
                     {
                         Export.FolderViewModel.Folders.Remove(folder);
-                    }                   
+                    }
 
+                    if (string.IsNullOrEmpty(Export.IFC))
+                    {
+                        Export.IFC = string.Empty;
+                    }
 
                     if (string.IsNullOrEmpty(Export.Value))
                     {

@@ -14,13 +14,15 @@ namespace XMLGenerator.Model
     {
         private string m_from;
         private ICommand m_fileDialogFromCommand;
+        private ICommand m_fileDialogExportCommand;
 
         public IFC()
         {
-            FileDialogFromCommand = new DelegateCommand(setPath);
+            FileDialogFromCommand = new DelegateCommand(setFromPath);
+            FileDialogExportCommand = new DelegateCommand(setExportPath);
         }
 
-        private async void setPath()
+        private async void setFromPath()
         {
             var x = await PathValidator.SelectFilePath(FromRestriction);
             if (x != "")
@@ -29,7 +31,17 @@ namespace XMLGenerator.Model
             }
         }
 
+        private async void setExportPath()
+        {
+            var x = await PathValidator.SelectFilePath(FromRestriction);
+            if (x != "")
+            {
+                Export = x;
+            }
+        }
+
         public ICommand FileDialogFromCommand { get { return m_fileDialogFromCommand; } set { m_fileDialogFromCommand = value; OnPropertyChanged("FileDialogFromCommand"); } }
+        public ICommand FileDialogExportCommand { get { return m_fileDialogExportCommand; } set { m_fileDialogExportCommand = value; OnPropertyChanged("FileDialogToCommand"); } }
 
         public string FromRestriction { get; set; }
         public string From { get { return m_from; } set { m_from = value; OnPropertyChanged("From"); } }

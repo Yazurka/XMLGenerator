@@ -15,6 +15,7 @@ namespace XMLGenerator.ViewModel
         private ObservableCollection<File> m_files;
         private ICommand m_addFolderCommand;
         private XmlViewModel m_xmlViewModel;
+
         public FileViewModel(XmlViewModel xmlViewModel)
         {
             m_xmlViewModel = xmlViewModel;
@@ -25,6 +26,12 @@ namespace XMLGenerator.ViewModel
         {
             m_files = value;
             OnPropertyChanged("Files");}
+        }
+
+        public bool BasePathValid
+        {
+            get { return m_xmlViewModel.BasePathValid; }
+            set { OnPropertyChanged("BasePathValid"); }
         }
 
         public ICommand AddFolderCommand
