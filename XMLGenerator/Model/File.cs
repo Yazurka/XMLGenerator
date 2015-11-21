@@ -19,8 +19,11 @@ namespace XMLGenerator.Model
         private bool m_isVisible;
         private string m_from;
         private ICommand m_fileDialogCommand;
-        public File()
+        private FileViewModel m_fileViewModel;
+
+        public File(FileViewModel _fileViewModel)
         {
+            m_fileViewModel = _fileViewModel;
             FileDialogCommand = new DelegateCommand(setPath);
             IsVisible = true;
             RemoveCommand = new DelegateCommand(RemoveExecute);
@@ -28,10 +31,21 @@ namespace XMLGenerator.Model
 
         private async void setPath()
         {
-            var x = await PathValidator.SelectFilePath(FromRestriction);
-            if (x != "")
+            var x = await PathValidator.SelectMultipleFilePath(FromRestriction);
+            if (x != null)
             {
-                From = x;
+                if (x.Count > 1)
+                {
+                    From = x.First();
+                    for (int i = 1; i < x.Count; i++)
+                    {
+                        m_fileViewModel.AddMultipleFilesExecute(x[i]);
+                    }
+                }
+                else
+                {
+                    From = x.First();
+                }                
             }
         }
 

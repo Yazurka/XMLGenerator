@@ -32,7 +32,7 @@
                     </Grid.ColumnDefinitions>
                     <Separator Grid.Row="2" Grid.ColumnSpan="2" BorderThickness="4" BorderBrush="SlateGray"/>
                     <Button Grid.Row="0" Grid.ColumnSpan="2" Margin="5" Content="Generate local folders" Command="{Binding GenerateLocalFoldersCommand}" IsEnabled="{Binding BasePathValid}"/>
-                    <Button Grid.Row="3" Margin="5" Content="Save" Command="{Binding GenerateXmlCommand}" />
+                    <Button Grid.Row="3" Margin="5" Content="Save" Command="{Binding SaveCommand}" />
                     <Button Grid.Row="3" Grid.Column="1" Margin="5" Content="Save As" Command="{Binding SaveFolderCommand}" />
                     <Button Grid.Row="4" Grid.ColumnSpan="2" Margin="5" Content="Open existing project" Command="{Binding FileExplorerCommand}"/>
                 </Grid>

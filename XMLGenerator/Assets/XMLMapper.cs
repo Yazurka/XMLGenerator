@@ -67,16 +67,16 @@ namespace XMLGenerator.Assets
                 disciplinecol.Add(disciplineVM);
 
             }
+            var fileVM = new FileViewModel(XMLvm);
 
             var files = xdoc.Element("Files").Elements("File");
             var filecol = new ObservableCollection<File>();
             foreach (var file in files)
             {
-                var f = new File {From = file.Attribute("From").Value,To=file.Attribute("To").Value};
+                var f = new File(fileVM) {From = file.Attribute("From").Value,To=file.Attribute("To").Value};
                 filecol.Add(f);
             }
 
-            var fileVM = new FileViewModel(XMLvm);
             fileVM.Files = filecol;
 
             XMLvm.FileViewModel = fileVM;

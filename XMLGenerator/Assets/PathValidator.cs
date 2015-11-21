@@ -24,7 +24,7 @@ namespace XMLGenerator.Assets
                 return false;
             }
 
-            if (SelectedPath.Substring(0,BaseFolderPath.Length) == BaseFolderPath)
+            if (SelectedPath.Substring(0, BaseFolderPath.Length) == BaseFolderPath)
             {
                 return true;
             }
@@ -60,7 +60,7 @@ namespace XMLGenerator.Assets
                 {
                     case MessageDialogResult.Negative:
                         return "";
-                    case MessageDialogResult.Affirmative:                        
+                    case MessageDialogResult.Affirmative:
                         return await SelectFolderPath(BaseFolderPath);
                 }
             }
@@ -77,12 +77,48 @@ namespace XMLGenerator.Assets
             p.ShowDialog();
             var selectedPath = p.FileName;
 
-            if (selectedPath == string.Empty)
+            bool isValid = PathValidator.ValidatePath(BaseFolderPath, selectedPath);
+
+            
+            if (!isValid)
             {
-                return "";
+                var window = System.Windows.Application.Current.MainWindow as MetroWindow;
+                MetroDialogSettings Settings = new MetroDialogSettings();
+                Settings.AffirmativeButtonText = "Yes";
+                Settings.NegativeButtonText = "No";
+                var x = await window.ShowMessageAsync("Not allowed", "One or more files has an invalid path, do you want to select another?", MessageDialogStyle.AffirmativeAndNegative, Settings);
+
+                switch (x)
+                {
+                    case MessageDialogResult.Negative:
+                        return null;
+                    case MessageDialogResult.Affirmative:
+                        return await SelectFilePath(BaseFolderPath);
+                }
             }
 
-            var isValid = PathValidator.ValidatePath(BaseFolderPath, selectedPath);
+            return selectedPath;
+        }
+
+        public static async Task<List<string>> SelectMultipleFilePath(string BaseFolderPath)
+        {
+            var returnString = string.Empty;
+
+            OpenFileDialog p = new OpenFileDialog();
+            p.Multiselect = true;
+            p.InitialDirectory = BaseFolderPath;
+            p.ShowDialog();
+            var selectedPath = p.FileNames.ToList();
+
+
+            selectedPath.RemoveAll(x => x == string.Empty);
+
+            bool isValid = false;
+
+            foreach (var path in selectedPath)
+            {
+                isValid = PathValidator.ValidatePath(BaseFolderPath, path);
+            }
 
             if (!isValid)
             {
@@ -90,14 +126,14 @@ namespace XMLGenerator.Assets
                 MetroDialogSettings Settings = new MetroDialogSettings();
                 Settings.AffirmativeButtonText = "Yes";
                 Settings.NegativeButtonText = "No";
-                var x = await window.ShowMessageAsync("Not allowed", "The selected path is invalid, do you want to try again?", MessageDialogStyle.AffirmativeAndNegative, Settings);
+                var x = await window.ShowMessageAsync("Not allowed", "One or more files has an invalid path, do you want to select another?", MessageDialogStyle.AffirmativeAndNegative, Settings);
 
                 switch (x)
                 {
                     case MessageDialogResult.Negative:
-                        return "";
+                        return null;
                     case MessageDialogResult.Affirmative:
-                        return await SelectFolderPath(BaseFolderPath);
+                        return await SelectMultipleFilePath(BaseFolderPath);
                 }
             }
 

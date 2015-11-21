@@ -20,7 +20,7 @@ namespace XMLGenerator.ViewModel
         {
             m_xmlViewModel = xmlViewModel;
             AddFolderCommand = new DelegateCommand(AddFolderExecute);
-            Files = new ObservableCollection<File> {new File{ FromRestriction = m_xmlViewModel.BaseFolderViewModel.FromBasePath}};
+            Files = new ObservableCollection<File> {new File(this){ FromRestriction = m_xmlViewModel.BaseFolderViewModel.FromBasePath}};
         }
         public ObservableCollection<File> Files { get { return m_files; } set
         {
@@ -46,7 +46,12 @@ namespace XMLGenerator.ViewModel
 
         private void AddFolderExecute()
         {
-            Files.Add(new File { FromRestriction = m_xmlViewModel.BaseFolderViewModel.FromBasePath});
+            Files.Add(new File(this) { FromRestriction = m_xmlViewModel.BaseFolderViewModel.FromBasePath});
+        }
+
+        public void AddMultipleFilesExecute(string FromPath)
+        {
+            Files.Add(new File(this) { FromRestriction = m_xmlViewModel.BaseFolderViewModel.FromBasePath, From = FromPath });
         }
     }
 }
