@@ -4,6 +4,7 @@ using Microsoft.Practices.Prism.Commands;
 using System.Windows;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using XMLGenerator.Assets;
 
 namespace XMLGenerator.ViewModel
 {
@@ -37,6 +38,7 @@ namespace XMLGenerator.ViewModel
             set { m_basePathValid = value;
                 FileViewModel.BasePathValid = value;
                 IFCViewModel.BasePathValid = value;
+                BasePathHelper.SetFromBaseFolders(this, BaseFolderViewModel.FromBasePath);
                 OnPropertyChanged("BasePathValid"); }
         }
 

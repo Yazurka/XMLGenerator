@@ -25,7 +25,7 @@ namespace XMLGenerator.Model
         private async void setFromPath()
         {
             var x = await PathValidator.SelectFilePath(FromRestriction);
-            if (x != "")
+            if (!string.IsNullOrEmpty(x))
             {
                 From = x;
             }
@@ -34,7 +34,7 @@ namespace XMLGenerator.Model
         private async void setExportPath()
         {
             var x = await PathValidator.SelectFilePath(FromRestriction);
-            if (x != "")
+            if (!string.IsNullOrEmpty(x))
             {
                 Export = x;
             }

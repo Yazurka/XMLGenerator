@@ -27,7 +27,7 @@ namespace XMLGenerator.ViewModel
         private async void FileDialogExecute()
         {
             var x = await PathValidator.SelectFilePath(StartFile.FromRestriction);
-            if (x != "")
+            if (!string.IsNullOrEmpty(x))
             {
                 StartFile.FromPath = x;
             }

@@ -16,7 +16,7 @@ namespace XMLGenerator.Model
         private async void setPath()
         {
             var x = await PathValidator.SelectFilePath(FromRestriction);
-            if (x != "")
+            if (!string.IsNullOrEmpty(x))
             {
                 FromPath = x;
             }

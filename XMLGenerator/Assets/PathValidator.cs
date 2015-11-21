@@ -41,7 +41,7 @@ namespace XMLGenerator.Assets
             p.ShowDialog();
             var selectedPath = p.SelectedPath;
 
-            if (selectedPath == string.Empty)
+            if (string.IsNullOrEmpty(selectedPath))
             {
                 return "";
             }
@@ -77,6 +77,11 @@ namespace XMLGenerator.Assets
             p.ShowDialog();
             var selectedPath = p.FileName;
 
+            if (p.FileNames == null)
+            {
+                return null;
+            }
+
             bool isValid = PathValidator.ValidatePath(BaseFolderPath, selectedPath);
 
             
@@ -86,7 +91,7 @@ namespace XMLGenerator.Assets
                 MetroDialogSettings Settings = new MetroDialogSettings();
                 Settings.AffirmativeButtonText = "Yes";
                 Settings.NegativeButtonText = "No";
-                var x = await window.ShowMessageAsync("Not allowed", "One or more files has an invalid path, do you want to select another?", MessageDialogStyle.AffirmativeAndNegative, Settings);
+                var x = await window.ShowMessageAsync("Not allowed", "Selected filepat is invalid, do you want to select another?", MessageDialogStyle.AffirmativeAndNegative, Settings);
 
                 switch (x)
                 {
@@ -110,6 +115,10 @@ namespace XMLGenerator.Assets
             p.ShowDialog();
             var selectedPath = p.FileNames.ToList();
 
+            if (p.FileNames.Count() == 0)
+            {
+                return null;
+            }
 
             selectedPath.RemoveAll(x => x == string.Empty);
 
