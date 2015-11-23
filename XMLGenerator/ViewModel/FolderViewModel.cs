@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
-using XMLGenerator.Model;
+using IfcConfigManager.Model;
 
-namespace XMLGenerator.ViewModel
+namespace IfcConfigManager.ViewModel
 {
      public class FolderViewModel : ViewModelBase
      {

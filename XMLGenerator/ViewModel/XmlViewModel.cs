@@ -4,9 +4,9 @@ using Microsoft.Practices.Prism.Commands;
 using System.Windows;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using XMLGenerator.Assets;
+using IfcConfigManager.Assets;
 
-namespace XMLGenerator.ViewModel
+namespace IfcConfigManager.ViewModel
 {
     public class XmlViewModel: ViewModelBase
     {

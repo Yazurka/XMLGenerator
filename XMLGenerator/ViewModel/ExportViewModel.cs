@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using XMLGenerator.Model;
+using IfcConfigManager.Model;
 
-namespace XMLGenerator.ViewModel
+namespace IfcConfigManager.ViewModel
 {
     public class ExportViewModel : ViewModelBase
     {

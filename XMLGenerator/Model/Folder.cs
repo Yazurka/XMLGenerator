@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
-using XMLGenerator.Assets;
-using XMLGenerator.ViewModel;
+using IfcConfigManager.Assets;
+using IfcConfigManager.ViewModel;
 
 
-namespace XMLGenerator.Model
+namespace IfcConfigManager.Model
 {
     public class Folder: ViewModelBase
     {

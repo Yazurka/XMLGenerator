@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Win32;
-using XMLGenerator.Assets;
+using IfcConfigManager.Assets;
 using System.IO;
 using MahApps.Metro.Controls.Dialogs;
 using System.Windows;
@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 using MahApps.Metro.Controls;
 using System.Collections.Generic;
 
-namespace XMLGenerator.ViewModel
+namespace IfcConfigManager.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
@@ -37,6 +37,7 @@ namespace XMLGenerator.ViewModel
             {
                 if (value == -1 && CurrentViewModel.Count > 0)
                 {
+                    OnPropertyChanged("SelectedTabIndex");
                     return;
                 }
                 m_selectedTabIndex = value;
@@ -174,7 +175,7 @@ namespace XMLGenerator.ViewModel
             foreach (var ifc in IfcList)
             {
                 var file = new FileInfo(xmlViewModel.IFCViewModel.IFC.From);
-                file.CopyTo(Path.GetDirectoryName(xmlViewModel.IFCViewModel.IFC.To) + "\\" + ifc + ".ifc");
+                file.CopyTo(Path.GetDirectoryName(xmlViewModel.IFCViewModel.IFC.To) + "\\" + ifc + ".ifc", true);
             }
             await window.ShowMessageAsync("Directory created", "Export directory has been created at: \n" + xmlViewModel.BaseFolderViewModel.ToBasePath);
         }

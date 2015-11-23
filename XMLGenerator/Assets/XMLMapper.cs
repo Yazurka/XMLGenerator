@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using XMLGenerator.Model;
-using XMLGenerator.View;
-using XMLGenerator.ViewModel;
-using File = XMLGenerator.Model.File;
+using IfcConfigManager.Model;
+using IfcConfigManager.View;
+using IfcConfigManager.ViewModel;
+using File = IfcConfigManager.Model.File;
 
-namespace XMLGenerator.Assets
+namespace IfcConfigManager.Assets
 {
     public class XMLMapper
     {

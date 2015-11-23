@@ -6,11 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
-using XMLGenerator.Model;
+using IfcConfigManager.Model;
 using System.Windows.Forms;
-using XMLGenerator.Assets;
+using IfcConfigManager.Assets;
 
-namespace XMLGenerator.ViewModel
+namespace IfcConfigManager.ViewModel
 {
     public class StartFileViewModel : ViewModelBase
     {

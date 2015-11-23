@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XMLGenerator.Assets;
-using XMLGenerator.ViewModel;
+using IfcConfigManager.Assets;
+using IfcConfigManager.ViewModel;
 
-namespace XMLGenerator.Model
+namespace IfcConfigManager.Model
 {
     public class StartFile : ViewModelBase
     {

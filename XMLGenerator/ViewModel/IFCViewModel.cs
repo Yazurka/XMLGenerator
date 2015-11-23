@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-using XMLGenerator.Model;
+using IfcConfigManager.Model;
 
-namespace XMLGenerator.ViewModel
+namespace IfcConfigManager.ViewModel
 {
     public class IFCViewModel:ViewModelBase
     {

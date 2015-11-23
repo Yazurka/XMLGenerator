@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XMLGenerator.ViewModel;
+using IfcConfigManager.ViewModel;
 
-namespace XMLGenerator.Assets
+namespace IfcConfigManager.Assets
 {
     public class CreateToField
     {

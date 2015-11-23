@@ -1,6 +1,6 @@
 ﻿using MahApps.Metro.Controls;
-using XMLGenerator.ViewModel;
-namespace XMLGenerator
+using IfcConfigManager.ViewModel;
+namespace IfcConfigManager
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

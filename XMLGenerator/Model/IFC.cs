@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Input;
-using XMLGenerator.ViewModel;
-using XMLGenerator.Assets;
+using IfcConfigManager.ViewModel;
+using IfcConfigManager.Assets;
 
-namespace XMLGenerator.Model
+namespace IfcConfigManager.Model
 {
     public class IFC : ViewModelBase
     {
@@ -33,7 +33,7 @@ namespace XMLGenerator.Model
 
         private async void setExportPath()
         {
-            var x = await PathValidator.SelectFilePath(FromRestriction);
+            var x = await PathValidator.SelectFolderPath(FromRestriction);
             if (!string.IsNullOrEmpty(x))
             {
                 Export = x;

@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.Practices.Prism.PubSubEvents;
-using XMLGenerator.ViewModel;
+using IfcConfigManager.ViewModel;
 
-namespace XMLGenerator.Assets
+namespace IfcConfigManager.Assets
 {
     class XMLObject
     {

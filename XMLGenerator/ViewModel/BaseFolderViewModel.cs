@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
-using XMLGenerator.Assets;
+using IfcConfigManager.Assets;
 
-namespace XMLGenerator.ViewModel
+namespace IfcConfigManager.ViewModel
 {
     public class BaseFolderViewModel : ViewModelBase
     {

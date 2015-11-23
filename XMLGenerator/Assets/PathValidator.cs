@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace XMLGenerator.Assets
+namespace IfcConfigManager.Assets
 {
     public static class PathValidator
     {
@@ -77,7 +77,7 @@ namespace XMLGenerator.Assets
             p.ShowDialog();
             var selectedPath = p.FileName;
 
-            if (p.FileNames == null)
+            if (string.IsNullOrEmpty(p.FileName))
             {
                 return null;
             }

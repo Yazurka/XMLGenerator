@@ -1,9 +1,9 @@
-﻿<Application x:Class="XMLGenerator.App"
+﻿<Application x:Class="IfcConfigManager.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:XMLGenerator"
-             xmlns:ViewModel="clr-namespace:XMLGenerator.ViewModel"
-             xmlns:View="clr-namespace:XMLGenerator.View"
+             xmlns:local="clr-namespace:IfcConfigManager"
+             xmlns:ViewModel="clr-namespace:IfcConfigManager.ViewModel"
+             xmlns:View="clr-namespace:IfcConfigManager.View"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>

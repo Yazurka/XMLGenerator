@@ -7,12 +7,12 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Practices.Prism.Commands;
-using XMLGenerator.ViewModel;
-using XMLGenerator.Assets;
+using IfcConfigManager.ViewModel;
+using IfcConfigManager.Assets;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
-namespace XMLGenerator.Model
+namespace IfcConfigManager.Model
 {
     public class File : ViewModelBase
     {
