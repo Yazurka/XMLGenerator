@@ -12,6 +12,8 @@ namespace IfcConfigManager.ViewModel
 {
     public class ExportViewModel : ViewModelBase
     {
+        public Guid Id { get; set; }
+
         private FolderViewModel m_folderViewModel;
         private string m_value;
         private ICommand m_removeExportCommand;

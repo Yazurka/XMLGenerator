@@ -9,6 +9,7 @@ namespace IfcConfigManager.Model
 {
     public class Export
     {
+        public Guid Id { get; set; }
         public string Value { get; set; }
         public ObservableCollection<Folder> Folders { get; set; }
         public ObservableCollection<File> Files { get; set; }

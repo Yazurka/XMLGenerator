@@ -61,6 +61,18 @@ namespace IfcConfigManager.Assets
                     expVM.FolderViewModel = fVM;
                     expVM.Value = exp.Attribute("Value").Value;
                     expVM.IFC = exp.Attribute("IFC").Value;
+                    if (exp.Attribute("Id") is XAttribute xAtt)
+                    {
+                        if (Guid.TryParse(xAtt.Value, out Guid id))
+                        {
+                            expVM.Id = id;
+                        };
+                    }
+                    if (expVM.Id == null || expVM.Id == Guid.Empty)
+                    {
+                        expVM.Id = Guid.NewGuid();
+                    }
+
                     exportVMCOL.Add(expVM);
                 }
                 disciplineVM.ExportViewModels = exportVMCOL;
